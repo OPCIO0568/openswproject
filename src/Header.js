@@ -1,7 +1,17 @@
-// src/Header.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function Header() {
+function Header({ isLoggedIn, username, onLogout }) {
+  const navigate = useNavigate();
+
+  const handleMainClick = () => {
+    navigate('/');
+  };
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
   return (
     <header style={{
       display: 'flex',
@@ -10,24 +20,60 @@ function Header() {
       padding: '20px',
       borderBottom: '1px solid #ddd',
       position: 'relative',
-      fontFamily: 'Arial, sans-serif' // 기본 폰트 설정
+      fontFamily: 'Arial, sans-serif'
     }}>
-      {/* 가운데에 고정된 헤더 제목 */}
-      <h1 style={{ margin: 0 }}>기 뻔</h1>
-
-      {/* 오른쪽에 위치한 로그인 버튼 */}
-      <div style={{ position: 'absolute', right: '20px' }}>
-        <button style={{
-          padding: '8px 16px',
-          borderRadius: '4px',
-          backgroundColor: '#4CAF50',
-          color: 'white',
+      <button
+        style={{
+          margin: 0,
+          background: 'none',
           border: 'none',
+          padding: 0,
+          fontSize: '2rem',
+          fontWeight: 'bold',
+          fontFamily: 'Arial, sans-serif',
           cursor: 'pointer',
-          fontFamily: 'inherit', // 상위 폰트 상속
-        }}>
-          로그인
-        </button>
+          color: "black",
+        }}
+        onClick={handleMainClick}
+      >
+        기 뻔
+      </button>
+
+      <div style={{ position: 'absolute', right: '20px' }}>
+        {isLoggedIn ? (
+          <>
+            <span style={{ marginRight: '10px' }}>{username}</span>
+            <button
+              onClick={onLogout}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '4px',
+                backgroundColor: '#FF6347',
+                color: 'white',
+                border: 'none',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              로그아웃
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={handleLoginClick}
+            style={{
+              padding: '8px 16px',
+              borderRadius: '4px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
+            로그인
+          </button>
+        )}
       </div>
     </header>
   );

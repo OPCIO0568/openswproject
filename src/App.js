@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import Board from './Board';
 import Footer from './Footer';
@@ -8,25 +8,41 @@ import MyPage from './MyPage';
 import './App.css';
 import Mypagedetail from './Mypagedetail';
 import LoginPage from './LoginPage';
-
-
+import SignupPage from './SignupPage';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
+  const [username, setUsername] = useState(''); // 닉네임 저장
+
+  const handleLogin = (user) => {
+    setIsLoggedIn(true);
+    setUsername(user.username); // 닉네임 설정
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsername('');
+  };
+
   return (
     <Router>
       <div className="App">
-        <Header />
-
-        {/* ��ο� ���� ������ ������ */}
+        <Header 
+          isLoggedIn={isLoggedIn} 
+          username={username} 
+          onLogout={handleLogout} 
+        />
         <Routes>
-          <Route path="/" element={<Board />} /> {/* �⺻ Ȩ ������ */}
+          <Route path="/" element={<Board />} />
           <Route path="/AllDonationPost" element={<AllDonationPost />} />
           <Route path="/MyPage" element={<MyPage />} />
           <Route path="/Mypagedetail" element={<Mypagedetail />} />
-          <Route path="/login" element={<LoginPage />} />
-
+          <Route 
+            path="/login" 
+            element={<LoginPage onLogin={handleLogin} />} 
+          />
+          <Route path="/signup" element={<SignupPage />} />
         </Routes>
-        
         <Footer />
       </div>
     </Router>

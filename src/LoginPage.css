@@ -1,5 +1,5 @@
 .loginBox {
-    margin: 0px auto;
+    margin: 10vh auto;
     width: 300px;
     padding: 20px;
     border: 1px solid #ccc;
@@ -34,7 +34,7 @@
 }
 
 button {
-    background-color: #282c34;
+    background-color: #4CAF50;
     color: white;
     border: none;
     padding: 10px 15px;

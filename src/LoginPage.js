@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 import './LoginPage.css';
 
-function LoginPage() {
+function LoginPage({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log('Logging in with:', { email, password });
-    // Add your login logic or API call here
+
+    // 로그인 로직 예제
+    if (email === 'user@example.com' && password === 'password') {
+      // 성공 시 부모로 로그인 데이터 전달
+      onLogin({ username: 'User123' }); // 예제 닉네임
+      navigate('/');
+    } else {
+      // 실패 시 에러 표시
+      setError('Invalid email or password');
+    }
   };
 
   return (
@@ -35,8 +47,15 @@ function LoginPage() {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">로그인</button>
       </form>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <p>
+        계정이 없으신가요?{' '}
+        <Link to="/signup" style={{ color: '#4CAF50', textDecoration: 'none' }}>
+          회원가입
+        </Link>
+      </p>
     </div>
   );
 }

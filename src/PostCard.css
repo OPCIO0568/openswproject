@@ -59,3 +59,10 @@
     box-sizing: border-box;
   }
   
+  .ps {
+    font-size: 2rem; /* 적당한 크기로 조정 */
+    color: green; /* 초록색 설정 */
+    font-weight: bold; /* 글자 두께 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    margin: 10px 0; /* 위아래 여백 추가 */
+  }
