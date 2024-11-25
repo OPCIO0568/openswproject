@@ -36,8 +36,8 @@ function Mypagedetail() {
             alt="Default Profile"
           />
           <div className="namebox">
-            <h2 className="Name">adsf</h2>
-            <h2 className="subtitle">adsf</h2>
+            <h2 className="Name">유저이름</h2>
+            <h2 className="subtitle">소제목</h2>
           </div>
         </div>
         <div className="inner-box2">

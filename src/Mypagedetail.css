@@ -23,7 +23,7 @@
 .inner-box {
   width: 90%; /* 프로필 박스 안에서 너비 조정 */
   height: 20vh; /* 높이를 프로필 박스에 비례 */
-  background-color: rgb(92, 197, 253);
+  background-color: white;
   color: white;
   display: flex; /* 내부 박스에서 플렉스 정렬 */
   justify-content: flex-start; /* 플렉스 아이템들을 왼쪽 정렬 */
@@ -32,6 +32,7 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px; /* 박스 내부 여백 */
   box-sizing: border-box;
+  border: 1px solid black;
 }
 
 .inner-box2 {
@@ -53,10 +54,10 @@
     flex: 1; /* MyPage가 25% 너비를 차지 */
     max-width: 250px; /* 최대 너비 제한 */
     height: 100%; /* 부모 높이 꽉 채움 */
-    border-left: 1px solid #ddd;
+    border-left: 1px solid white;
     padding: 20px;
     box-sizing: border-box; /* padding 포함 */
-    background-color: #f9f9f9;
+    background-color: white;
   }
   
   .profileimage {
@@ -68,6 +69,7 @@
     margin-right: 10%;
     object-fit: contain;
     margin-left: 10vh;
+    border: 1px solid black;
   }
 
   .namebox {
@@ -75,7 +77,9 @@
     height:80%;
     margin-right: auto;
     padding: 10px;
-    background-color: aqua;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid black;
   }
 
   .nowmoeny {
@@ -123,4 +127,25 @@
 
 .charge-button:active {
   transform: scale(0.95); /* 클릭 시 약간 축소 */
+}
+
+.Name {
+  border: 1px solid black;
+  height: 50%;
+  margin-top: 1%;
+  display: flex; /* 플렉스 박스 사용 */
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: center; 
+  color: black;
+}
+
+.subtitle {
+  border: 1px solid black;
+  height: 30%;
+  margin-top: 1%;
+  color: black;
+  font-size: 100%;
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: center;
+  display: flex;
 }

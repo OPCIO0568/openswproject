@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "./Header";
 import MyPage from "./MyPage";
 import PostCard from "./PostCard";
 import "./PostCard.css";
