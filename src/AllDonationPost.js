@@ -1,7 +1,9 @@
 import React from "react";
+import Header from "./Header";
 import MyPage from "./MyPage";
 import PostCard from "./PostCard";
-import "./PostCard.css";
+import "./PostCard.css"; // CSS 파일 가져오기
+import { Link } from "react-router-dom";
 
 function AllDonationPost() {
   const posts = [
@@ -27,7 +29,6 @@ function AllDonationPost() {
 
   return (
     <div>
-
       {/* 전체 레이아웃 */}
       <div className="all-donation-post">
         {/* 게시글 목록 */}
@@ -48,6 +49,18 @@ function AllDonationPost() {
         {/* MyPage 컴포넌트 */}
         <div className="mypage-container">
           <MyPage />
+        </div>
+      </div>
+
+      {/* 글생성 및 삭제 칸 */}
+      <div className="action-container">
+        <div className="create-box">
+          <Link to="/AllDonationPost/CreatePostPage" style={{textDecoration: "none", color: "inherit"}}>
+            <h4 style={{ margin: 0 }}>글생성</h4>
+          </Link>
+        </div>
+        <div className="delete-box">
+          <h4 style={{ margin: 0 }}>삭제</h4>
         </div>
       </div>
     </div>

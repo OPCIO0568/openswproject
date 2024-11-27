@@ -59,10 +59,61 @@
     box-sizing: border-box;
   }
   
-  .ps {
-    font-size: 2rem; /* 적당한 크기로 조정 */
-    color: green; /* 초록색 설정 */
-    font-weight: bold; /* 글자 두께 */
-    text-align: center; /* 텍스트 가운데 정렬 */
-    margin: 10px 0; /* 위아래 여백 추가 */
+  
+  .action-container {
+    display: flex; /* 가로로 배치 */
+    gap: 10px; /* 두 상자 간격 */
+    margin-top: 20px; /* 전체 상자의 위 여백 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: center; /* 수직 정렬 */
   }
+  
+  .create-box {
+    border: 2px solid #4CAF50; /* 초록색 테두리 */
+    padding: 10px;
+    background-color: #e8f5e9; /* 연한 초록색 배경 */
+    text-align: center;
+    width: 40px; /* 너비를 조금 더 넓게 설정 */
+    height: 10px; /* 적절한 높이 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px; /* 둥근 모서리 */
+    color: #2e7d32; /* 글씨 초록색 */
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
+    cursor: pointer; /* 클릭 가능 표시 */
+    transition: all 0.3s ease; /* 마우스 올렸을 때 애니메이션 */
+    margin-left: 20px;
+    font-size: 12px;
+  }
+  
+  .create-box:hover { /*마우스를 올렸을때*/
+    background-color: #4CAF50; /* 진한 초록색 배경 */
+    color: white; /* 글씨 흰색 */
+  }
+  
+  .delete-box {
+    border: 2px solid #F44336; /* 빨간색 테두리 */
+    padding: 10px;
+    background-color: #ffebee; /* 연한 빨간색 배경 */
+    text-align: center;
+    width: 40px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    color: #d32f2f; /* 글씨 빨간색 */
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+  }
+  
+  .delete-box:hover {
+    background-color: #F44336; /* 진한 빨간색 배경 */
+    color: white; /* 글씨 흰색 */
+  }
+  

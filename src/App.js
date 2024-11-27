@@ -9,6 +9,9 @@ import './App.css';
 import Mypagedetail from './Mypagedetail';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
+import CreatePostPage from './CreatePostPage';
+import PostDetail from './PostDetail';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
@@ -24,29 +27,36 @@ function App() {
     setUsername('');
   };
 
-  return (
-    <Router>
-      <div className="App">
+    return (
+      <Router>
+        <div className="App">
         <Header 
-          isLoggedIn={isLoggedIn} 
-          username={username} 
-          onLogout={handleLogout} 
-        />
-        <Routes>
-          <Route path="/" element={<Board />} />
-          <Route path="/AllDonationPost" element={<AllDonationPost />} />
-          <Route path="/MyPage" element={<MyPage />} />
-          <Route path="/Mypagedetail" element={<Mypagedetail />} />
-          <Route 
-            path="/login" 
-            element={<LoginPage onLogin={handleLogin} />} 
+            isLoggedIn={isLoggedIn} 
+            username={username} 
+            onLogout={handleLogout} 
           />
-          <Route path="/signup" element={<SignupPage />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
-  );
-}
-
-export default App;
+          <Routes>
+            <Route path="/" element={<Board />} /> 
+            <Route path="/AllDonationPost" element={<AllDonationPost />} />
+            <Route path="/MyPage" element={<MyPage />} />
+            <Route path="/Mypagedetail" element={<Mypagedetail />} />
+            <Route 
+              path="/login" 
+              element={<LoginPage onLogin={handleLogin} />} 
+            />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/AllDonationPost/CreatePostPage" element={<CreatePostPage />} />
+            <Route path="/AllDonationPost/PostDetail" element={<PostDetail />} />
+            <Route path="/AllDonationPost/PostDetail/:postId" element={<PostDetail />} />
+  
+  
+          </Routes>
+          
+          <Footer />
+        </div>
+      </Router>
+    );
+  }
+  
+  export default App;
+  
