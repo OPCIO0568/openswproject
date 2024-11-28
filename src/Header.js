@@ -4,45 +4,35 @@ import { useNavigate } from 'react-router-dom';
 function Header({ isLoggedIn, username, onLogout }) {
   const navigate = useNavigate();
 
-  const handleMainClick = () => {
-    navigate('/');
-  };
-
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
+  const handleMainClick = () => navigate('/');
+  const handleLoginClick = () => navigate('/login');
 
   return (
     <header style={{
       display: 'flex',
-      justifyContent: 'center',
+      justifyContent: 'space-between',
       alignItems: 'center',
       padding: '20px',
       borderBottom: '1px solid #ddd',
-      position: 'relative',
-      fontFamily: 'Arial, sans-serif'
+      fontFamily: 'Arial, sans-serif',
     }}>
       <button
         style={{
-          margin: 0,
-          background: 'none',
-          border: 'none',
-          padding: 0,
           fontSize: '2rem',
           fontWeight: 'bold',
-          fontFamily: 'Arial, sans-serif',
+          background: 'none',
+          border: 'none',
           cursor: 'pointer',
-          color: "black",
         }}
         onClick={handleMainClick}
       >
         기 뻔
       </button>
 
-      <div style={{ position: 'absolute', right: '20px' }}>
+      <div>
         {isLoggedIn ? (
           <>
-            <span style={{ marginRight: '10px' }}>{username}</span>
+            <span style={{ marginRight: '10px', fontWeight: 'bold' }}>{username}</span>
             <button
               onClick={onLogout}
               style={{
@@ -52,7 +42,6 @@ function Header({ isLoggedIn, username, onLogout }) {
                 color: 'white',
                 border: 'none',
                 cursor: 'pointer',
-                fontFamily: 'inherit',
               }}
             >
               로그아웃
@@ -68,7 +57,6 @@ function Header({ isLoggedIn, username, onLogout }) {
               color: 'white',
               border: 'none',
               cursor: 'pointer',
-              fontFamily: 'inherit',
             }}
           >
             로그인

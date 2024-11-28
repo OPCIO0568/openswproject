@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import Board from './Board';
@@ -11,52 +11,44 @@ import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import CreatePostPage from './CreatePostPage';
 import PostDetail from './PostDetail';
-
+import PrivateRoute from './PrivateRoute';
+import { AuthProvider } from './AuthContext'; // AuthProvider 사용
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
-  const [username, setUsername] = useState(''); // 닉네임 저장
-
-  const handleLogin = (user) => {
-    setIsLoggedIn(true);
-    setUsername(user.username); // 닉네임 설정
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUsername('');
-  };
-
-    return (
+  return (
+    <AuthProvider>
       <Router>
         <div className="App">
-        <Header 
-            isLoggedIn={isLoggedIn} 
-            username={username} 
-            onLogout={handleLogout} 
-          />
+          <Header />
           <Routes>
-            <Route path="/" element={<Board />} /> 
-            <Route path="/AllDonationPost" element={<AllDonationPost />} />
-            <Route path="/MyPage" element={<MyPage />} />
-            <Route path="/Mypagedetail" element={<Mypagedetail />} />
-            <Route 
-              path="/login" 
-              element={<LoginPage onLogin={handleLogin} />} 
-            />
+            <Route path="/" element={<Board />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/AllDonationPost" element={<AllDonationPost />} />
+            <Route
+              path="/MyPage"
+              element={
+                <PrivateRoute>
+                  <MyPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/Mypagedetail"
+              element={
+                <PrivateRoute>
+                  <Mypagedetail />
+                </PrivateRoute>
+              }
+            />
             <Route path="/AllDonationPost/CreatePostPage" element={<CreatePostPage />} />
-            <Route path="/AllDonationPost/PostDetail" element={<PostDetail />} />
             <Route path="/AllDonationPost/PostDetail/:postId" element={<PostDetail />} />
-  
-  
           </Routes>
-          
           <Footer />
         </div>
       </Router>
-    );
-  }
-  
-  export default App;
-  
+    </AuthProvider>
+  );
+}
+
+export default App;

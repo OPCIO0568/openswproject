@@ -1,25 +1,37 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Axios로 API 호출
 
 import './LoginPage.css';
 
 function LoginPage({ onLogin }) {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // 로그인 로직 예제
-    if (email === 'user@example.com' && password === 'password') {
-      // 성공 시 부모로 로그인 데이터 전달
-      onLogin({ username: 'User123' }); // 예제 닉네임
-      navigate('/');
-    } else {
-      // 실패 시 에러 표시
-      setError('Invalid email or password');
+    try {
+      // 로그인 API 호출
+      const response = await axios.post('http://localhost:8080/auth/login', {
+        username,
+        password,
+      });
+
+      // 성공 시 토큰 저장 및 부모 컴포넌트로 전달
+      const { token, message } = response.data;
+      localStorage.setItem('token', token); // 토큰 로컬 스토리지에 저장
+      onLogin({ username, message }); // 부모 컴포넌트로 전달
+      navigate('/'); // 메인 페이지로 이동
+    } catch (error) {
+      // 실패 시 에러 메시지 처리
+      if (error.response && error.response.data.error) {
+        setError(error.response.data.error);
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
     }
   };
 
@@ -28,12 +40,12 @@ function LoginPage({ onLogin }) {
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
         <div className="formGroup">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="username">Username:</label>
           <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
