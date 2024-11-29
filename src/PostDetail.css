@@ -1,0 +1,212 @@
+/* 전체 레이아웃 */
+.post-detail-layout {
+  display: flex;
+  justify-content: space-between; /* 좌우 정렬 */
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+/* 게시물 컨테이너 */
+.post-detail-container {
+  flex: 3; /* 게시물 영역 더 넓게 */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin-right: 20px; /* 마이페이지와 간격 */
+}
+
+/* 상단 박스 */
+.post-detail-upper-box {
+  display: flex;
+  gap: 20px; /* 이미지와 정보 사이의 간격 */
+  align-items: center; /* 세로 정렬 */
+  margin-bottom: 20px; /* 아래 박스와의 간격 */
+}
+
+/* 이미지 컨테이너 */
+.post-detail-image-container {
+  flex: 1; /* 이미지 영역 크기 조절 */
+  display: flex;
+  justify-content: center; /* 이미지 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
+}
+
+.post-detail-image { /* 왼쪽 이미지 */
+  width: 300px; /* 이미지 너비 */
+  height: auto; /* 비율 유지 */
+  border-radius: 10px; /* 이미지 모서리 둥글게 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+}
+
+/* 정보 컨테이너 */
+.post-detail-info-container {
+  flex: 1; /* 텍스트 영역 크기 조절 */
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  gap: 10px; /* 항목 사이의 간격 */
+  align-items: flex-start; /* 왼쪽 정렬 */
+}
+
+/* 텍스트 스타일 */
+.post-detail-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.post-detail-subtitle {
+  font-size: 18px;
+  font-weight: normal;
+  color: #777;
+  margin: 0;
+}
+
+.post-detail-stats {
+  font-size: 16px;
+  color: #333;
+  margin: 5px 0;
+}
+/* Progress Bar 컨테이너 */
+.progress-bar-container {
+  width: 100%; /* 전체 너비 */
+  height: 20px; /* 바 높이 */
+  background-color: #e0e0e0; /* 바 배경색 */
+  border-radius: 10px; /* 모서리를 둥글게 */
+  overflow: hidden; /* 바 범위를 초과하는 부분 숨김 */
+  margin: 10px 0; /* 위아래 간격 */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* 약간의 음영 */
+}
+
+/* 진행 상태 채우기 */
+.progress-bar-fill {
+  height: 100%; /* 부모 높이에 맞춤 */
+  background-color: #4caf50; /* 진행 상태 색상 */
+  border-radius: 10px 0 0 10px; /* 왼쪽 끝을 둥글게 */
+  transition: width 0.3s ease-in-out; /* 부드러운 진행 애니메이션 */
+}
+
+.post-detail-buttons {
+  display: flex; /* 버튼 가로 배치 */
+  justify-content: space-between; /* 버튼 사이 간격 */
+  width: 100%; /* 컨테이너 너비 */
+  margin-top: 5px; /* 버튼 위 여백 */
+  gap: 10px; /* 버튼 사이 간격을 일관되게 설정 */
+}
+
+.post-detail-button { /*후원하기 버튼*/
+  flex: 1; /* 버튼 크기를 동일하게 */
+  text-align: center;
+  background-color: #4980c8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px; /* 상하 패딩 */
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 5px; /* 버튼 사이 간격 */
+  transition: background-color 0.3s ease;
+}
+
+.post-detail-button:hover {
+  background-color: #45a049;
+}
+
+.post-detail-share-button {
+  flex: 1; /* 버튼 크기를 동일하게 */
+  background-color: #4980c8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 5px; /* 버튼 사이 간격 */
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.post-detail-share-button:hover {
+  background-color: #0056b3;
+}
+
+/* 프로필 섹션 */
+.post-detail-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* 프로필 이미지와 텍스트 간격 */
+  margin-bottom: 20px; /* 아래 박스와의 간격 */
+}
+
+/* 프로필 이미지 */
+.profile-image-container {
+  width: 60px; /* 동그란 이미지 크기 */
+  height: 60px;
+  overflow: hidden; /* 동그라미 밖으로 넘치는 이미지 숨기기 */
+  border-radius: 50%; /* 동그라미 모양 */
+  border: 2px solid #ddd; /* 테두리 */
+}
+
+.profile-image {
+  width: 100%; /* 이미지 크기 */
+  height: 100%;
+  object-fit: cover; /* 이미지를 잘라서 동그라미에 맞춤 */
+}
+
+/* 프로필 정보 */
+.profile-info-container {
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+}
+
+.profile-author-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0; /* 여백 제거 */
+}
+
+.profile-description {
+  font-size: 14px;
+  color: #555;
+  margin: 0; /* 여백 제거 */
+}
+
+/* 아래쪽 박스 */
+.post-detail-lower-box {
+  padding-top: 20px;
+}
+
+.post-detail-description-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.post-detail-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* 마이페이지 컨테이너 */
+.mypage-container {
+  flex: none; /* 마이페이지 크기를 고정 */
+  width: 300px; /* 원하는 너비 설정 */
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+
+  right: 0; /* 화면 오른쪽 끝에 붙음 */
+}
