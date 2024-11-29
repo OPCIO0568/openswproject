@@ -1,0 +1,48 @@
+package fundsite.fund_web_backend.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import fundsite.fund_web_backend.model.DonationHistory;
+import fundsite.fund_web_backend.model.DonationPage;
+import fundsite.fund_web_backend.model.User;
+import fundsite.fund_web_backend.repository.DonationHistoryRepository;
+import fundsite.fund_web_backend.repository.DonationPageRepository;
+import fundsite.fund_web_backend.repository.UserRepository;
+
+@Service
+public class DonationPageService {
+    @Autowired
+    private DonationPageRepository donationPageRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private DonationHistoryRepository donationHistoryRepository;
+
+    public DonationPage findById(Long id) {
+        return donationPageRepository.findById(id).orElse(null);
+    }
+
+    public void donate(Long userId, Long pageId, Double amount) {
+        User user = userRepository.findById(userId).orElseThrow();
+        DonationPage page = donationPageRepository.findById(pageId).orElseThrow();
+
+        if (user.getBalance() >= amount) {
+            user.setBalance(user.getBalance() - amount);
+            page.setCurrentAmount(page.getCurrentAmount() + amount);
+            userRepository.save(user);
+            donationPageRepository.save(page);
+
+            DonationHistory donationHistory = new DonationHistory();
+            donationHistory.setAmount(amount);
+            donationHistory.setUser(user);
+            donationHistory.setDonationPage(page);
+            donationHistoryRepository.save(donationHistory);
+        } else {
+            throw new IllegalArgumentException("Insufficient funds");
+        }
+    }
+}
+

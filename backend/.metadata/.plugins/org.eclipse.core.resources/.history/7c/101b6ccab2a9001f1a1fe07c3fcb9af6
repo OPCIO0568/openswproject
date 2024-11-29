@@ -1,0 +1,25 @@
+package fundsite.fund_web_backend.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import fundsite.fund_web_backend.model.DonationHistory;
+import fundsite.fund_web_backend.repository.DonationHistoryRepository;
+
+@Service
+public class DonationHistoryService {
+
+    @Autowired
+    private DonationHistoryRepository donationHistoryRepository;
+
+    /**
+     * 특정 사용자의 기부 이력을 조회합니다.
+     * @param userId 사용자 ID
+     * @return 사용자의 기부 이력 목록
+     */
+    public List<DonationHistory> getDonationHistoriesByUserId(Long userId) {
+        return donationHistoryRepository.findByUserId(userId);
+    }
+}

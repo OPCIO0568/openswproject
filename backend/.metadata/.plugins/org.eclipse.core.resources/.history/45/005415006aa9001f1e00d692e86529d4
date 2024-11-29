@@ -1,0 +1,5 @@
+package fundsite.fund_web_backend.config;
+
+public class JwtAuthenticationFilter {
+
+}

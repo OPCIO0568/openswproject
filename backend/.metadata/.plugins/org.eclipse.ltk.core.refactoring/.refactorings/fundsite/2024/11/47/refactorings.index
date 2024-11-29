@@ -1,0 +1,112 @@
+1731827644556	Delete element
+1731828842265	Delete element
+1731828856380	Delete element
+1731828857831	Delete element
+1731828858956	Delete element
+1731828864433	Delete element
+1731828866086	Delete element
+1731828868302	Delete element
+1731828869469	Delete element
+1731828875280	Delete element
+1731828876683	Delete element
+1731828877946	Delete element
+1731828886870	Delete element
+1731828892933	Delete element
+1731828894212	Delete element
+1731831121915	Rename type 'fund'
+1731832498675	Delete element
+1731832560473	Delete element
+1731832641983	Delete element
+1731832741391	Delete element
+1731832742038	Delete element
+1731832742615	Delete element
+1731832743106	Delete element
+1731832983044	Rename compilation unit 'User.java'
+1731833038248	Rename compilation unit 'UserService.java'
+1731833043991	Rename type 'UserRepository'
+1731833063132	Rename type 'UserController'
+1731833846454	Rename compilation unit 'AppUserController.java'
+1731833853207	Rename compilation unit 'AppUserService.java'
+1731834301948	Delete element
+1731893173895	Delete element
+1731895587557	Rename type 'AppUser'
+1731895765999	Rename compilation unit 'Campaign.java'
+1731895807667	Rename compilation unit 'AppUserRepository.java'
+1731895833466	Rename compilation unit 'CampaignRepository.java'
+1731895946849	Rename compilation unit 'UserController.java'
+1731899429947	Delete element
+1731899433682	Delete element
+1731899797049	Rename type 'DonationProject'
+1731899815369	Rename compilation unit 'Campagin.java'
+1731899847282	Rename type 'DonationService'
+1731899884517	Rename compilation unit 'DonationProjectRepository.java'
+1731899999942	Delete element
+1731900004503	Delete element
+1731900179409	Rename type 'DonationController'
+1731900410769	Rename resource 'home.html'
+1731900414674	Rename resource 'inde.html'
+1731900480648	Rename resource 'campagin.html'
+1731901877707	Rename compilation unit 'Donation.java'
+1731901888787	Rename type 'Campaign'
+1731901943158	Rename compilation unit 'DonationRepository.java'
+1731901961606	Rename compilation unit 'CampaignRepository.java'
+1731902005330	Rename compilation unit 'DonationService.java'
+1731902026655	Delete element
+1731902059966	Rename compilation unit 'CampaignController.java'
+1731921037466	Rename resource 'index.html'
+1731921054046	Rename resource 'campaign.html'
+1731921080460	Delete element
+1731921083236	Delete element
+1731921714784	Delete element
+1731921717456	Delete element
+1731922714087	Delete element
+1731924139824	Rename resource 'donation.html'
+1731924174255	Delete element
+1731935588356	Move folder
+1731935859792	Move file
+1731936396023	Rename resource 'forest.jpeg'
+1731939335225	Delete element
+1731939336542	Delete element
+1731939338125	Delete element
+1731939340103	Delete element
+1731939341277	Delete element
+1731939342448	Delete element
+1731939344353	Delete element
+1731939346783	Delete element
+1731939347899	Delete element
+1731939349085	Delete element
+1731939350230	Delete element
+1731939351018	Delete element
+1731939352850	Delete element
+1731939354407	Delete element
+1731939359484	Delete element
+1731939360477	Delete element
+1731939361407	Delete element
+1731939362316	Delete element
+1731939363111	Delete element
+1731940200928	Copy file
+1731940224932	Copy file
+1731940243502	Delete element
+1731940246108	Delete element
+1731940250896	Copy file
+1731940272951	Copy file
+1731940278849	Copy file
+1731940283801	Copy file
+1731940697125	Move folder
+1731940929883	Delete element
+1731940952726	Move file
+1731940967566	Rename resource 'donation_detail.html'
+1732010500199	Rename type 'DonationController'
+1732199133494	Rename resource 'home.html'
+1732200082878	Rename type 'Webconfig'
+1732242682061	Rename resource 'mypage.html'
+1732242686942	Rename resource 'register.html'
+1732242691332	Rename resource 'login.html'
+1732242695209	Rename resource 'donation-detail.html'
+1732348324562	Delete element
+1732371164404	Delete elements
+1732374990797	Delete element
+1732376160285	Rename type 'CustomUserDetailsService'
+1732376439931	Rename type 'DonationHistory'
+1732383247966	Delete element
+1732383407276	Delete element

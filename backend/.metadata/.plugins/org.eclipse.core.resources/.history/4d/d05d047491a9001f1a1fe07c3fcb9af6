@@ -1,0 +1,53 @@
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import fundsite.fund_web_backend.model.User;
+import fundsite.fund_web_backend.service.DonationService;
+import fundsite.fund_web_backend.service.UserService;
+import fundsite.fund_web_backend.util.JwtTokenProvider;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/donation")
+public class DonationController {
+
+    @Autowired
+    private DonationService donationService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider; // JWT 토큰 프로바이더 추가
+
+    @PostMapping("/{id}/donate")
+    public ResponseEntity<String> donate(
+            @PathVariable Long id,
+            @RequestBody Map<String, Object> payload,
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        // Authorization 헤더에서 토큰 추출
+        String token = authorizationHeader.replace("Bearer ", "");
+
+        // JWT 토큰에서 사용자 이름 추출
+        String username = jwtTokenProvider.getUsernameFromToken(token);
+
+        // 사용자 검색
+        User user = userService.getUserByUsername(username);
+
+        // 기부 금액 추출
+        double amount = Double.parseDouble(payload.get("amount").toString());
+
+        // 기부 처리
+        donationService.donate(id, user.getId(), amount);
+
+        return ResponseEntity.ok("Donation successful");
+    }
+}

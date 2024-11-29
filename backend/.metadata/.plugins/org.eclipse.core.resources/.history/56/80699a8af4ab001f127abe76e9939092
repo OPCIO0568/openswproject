@@ -1,0 +1,16 @@
+package fundsite.fund_web_backend.util;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+@Configuration
+public class JwtConfig {
+
+    @Bean
+    public JwtTokenProvider jwtTokenProvider(UserDetailsService userDetailsService) {
+        String secret = "my-jwt-secret-key"; // 실제 환경에서는 더 안전한 방식으로 설정
+        long validityInMilliseconds = 3600000L; // 토큰 유효시간 (1시간)
+        return new JwtTokenProvider(userDetailsService, secret, validityInMilliseconds);
+    }
+}

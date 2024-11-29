@@ -1,0 +1,87 @@
+package fundsite.fund_web_backend.config;
+
+import java.io.IOException;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import fundsite.fund_web_backend.util.JwtTokenProvider;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.userDetailsService = userDetailsService;
+    }
+
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String token = resolveToken(request);
+        logger.debug("Extracted Token: " + token);
+
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            logger.debug("Token is valid. Extracting username.");
+            String username = jwtTokenProvider.getUsernameFromToken(token);
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            var authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            logger.debug("Authentication set for user: " + username);
+        } else {
+            logger.debug("Token is missing or invalid.");
+        }
+
+        filterChain.doFilter(request, response);
+    }protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String token = resolveToken(request);
+        logger.debug("Extracted Token: " + token);
+
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            logger.debug("Token is valid. Extracting username.");
+            String username = jwtTokenProvider.getUsernameFromToken(token);
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            var authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            logger.debug("Authentication set for user: " + username);
+        } else {
+            logger.debug("Token is missing or invalid.");
+        }
+
+        filterChain.doFilter(request, response);
+    }
+
+    /**
+     * HTTP 요청에서 JWT 토큰을 추출합니다.
+     *
+     * @param request HTTP 요청
+     * @return JWT 토큰
+     */
+    private String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+}

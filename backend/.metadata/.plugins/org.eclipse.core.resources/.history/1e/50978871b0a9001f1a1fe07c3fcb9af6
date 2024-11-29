@@ -1,0 +1,51 @@
+@Service
+public class DonationService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private DonationRepository donationRepository;
+
+    @Autowired
+    private DonationHistoryRepository donationHistoryRepository;
+
+    @Autowired
+    private UserService userService; // UserService 활용
+
+    public List<Donation> getTop3Donations() {
+        return donationRepository.findAll().stream().limit(3).toList();
+    }
+
+    public List<Donation> getDonationsByTitle(String title) {
+        return donationRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    public List<Donation> getDonationsByType(Long donationType) {
+        return donationRepository.findByDonationType(donationType);
+    }
+
+    @Transactional
+    public void donate(Long donationId, String token, double amount) {
+        User user = userService.getUserFromToken(token); // 중복 로직 제거
+        Donation donation = donationRepository.findById(donationId)
+                .orElseThrow(() -> new RuntimeException("Donation not found"));
+
+        if (user.getBalance() < amount) {
+            throw new RuntimeException("Insufficient balance");
+        }
+
+        user.setBalance(user.getBalance() - amount);
+        userRepository.save(user);
+
+        donation.setCollectedAmount(donation.getCollectedAmount() + amount);
+        donationRepository.save(donation);
+
+        DonationHistory history = new DonationHistory();
+        history.setUser(user);
+        history.setDonation(donation);
+        history.setAmount(amount);
+        history.setTimestamp(LocalDateTime.now());
+        donationHistoryRepository.save(history);
+    }
+}

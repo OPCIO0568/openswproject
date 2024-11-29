@@ -1,0 +1,31 @@
+package fundsite.fund_web_backend.controller;
+
+import fundsite.fund_web_backend.util.JwtTokenProvider;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password)
+        );
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return jwtTokenProvider.generateToken(userDetails.getUsername());
+    }
+}

@@ -1,0 +1,55 @@
+package fundsite.fund_web_backend.controller;
+
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import fundsite.fund_web_backend.model.User;
+import fundsite.fund_web_backend.service.UserService;
+
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        userService.registerUser(user);
+        return ResponseEntity.ok("User registered successfully");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password) {
+        Optional<User> user = userService.loginUser(username, password);
+        if (user.isPresent()) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(401).body("Invalid username or password");
+        }
+    }
+    
+    
+    @GetMapping("/mypage")
+    public ResponseEntity<User> getMyPage() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+
+        String username = authentication.getName();
+        Optional<User> userOptional = userService.findByUsername(username);
+        if (userOptional.isPresent()) {
+            return ResponseEntity.ok(userOptional.get());
+        } else {
+            return ResponseEntity.status(404).build();
+        }
+    }
+}

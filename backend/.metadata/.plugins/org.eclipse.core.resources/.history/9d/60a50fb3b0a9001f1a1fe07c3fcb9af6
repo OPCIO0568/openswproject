@@ -1,0 +1,13 @@
+package fundsite.fund_web_backend.service;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import fundsite.fund_web_backend.model.User;
+import fundsite.fund_web_backend.repository.UserRepository;
+
+@Service
+public class DonationHistory {
+	
+}

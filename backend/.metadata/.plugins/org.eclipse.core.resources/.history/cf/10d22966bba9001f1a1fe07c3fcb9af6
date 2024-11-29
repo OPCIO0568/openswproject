@@ -1,0 +1,70 @@
+package fundsite.fund_web_backend.util;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.util.Date;
+
+@Component
+public class JwtTokenProvider {
+
+    private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final long EXPIRATION_MS = 3600000; // 1 hour
+
+    // Generate JWT
+    public String generateToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MS))
+                .signWith(SECRET_KEY) // 최신 방식 사용
+                .compact();
+    }
+
+    // Extract username from JWT
+    public String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY) // 최신 방식 사용
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
+    }
+
+    // Validate JWT
+    public boolean validateToken(String token) {
+        try {
+        	Jwts.parserBuilder()
+            .setSigningKey(SECRET_KEY) // 최신 방식 사용
+            .build()
+            .parseClaimsJws(token);
+        return true;
+        } catch (ExpiredJwtException e) {
+            logger.warn("Expired JWT token: {}", e.getMessage());
+        } catch (MalformedJwtException e) {
+            logger.warn("Invalid JWT token: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.warn("Unsupported JWT token: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.warn("JWT claims string is empty: {}", e.getMessage());
+        }
+        return false;
+    }
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY) // 최신 방식 사용
+                .build()
+                .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+}

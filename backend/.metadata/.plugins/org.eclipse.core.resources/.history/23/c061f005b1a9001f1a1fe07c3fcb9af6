@@ -1,0 +1,30 @@
+package fundsite.fund_web_backend.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import fundsite.fund_web_backend.model.Donation;
+import fundsite.fund_web_backend.repository.DonationRepository;
+
+@Service
+public class DonationService {
+
+
+    @Autowired
+    private DonationRepository donationRepository;
+
+
+    public List<Donation> getTop3Donations() {
+        return donationRepository.findAll().stream().limit(3).toList();
+    }
+
+    public List<Donation> getDonationsByTitle(String title) {
+        return donationRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    public List<Donation> getDonationsByType(Long donationType) {
+        return donationRepository.findByDonationType(donationType);
+    }
+}

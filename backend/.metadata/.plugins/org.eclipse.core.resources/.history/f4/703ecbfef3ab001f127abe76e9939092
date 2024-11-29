@@ -1,0 +1,83 @@
+package fundsite.fund_web_backend.util;
+
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Date;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+
+@Component
+public class JwtTokenProvider {
+
+    private final Key secretKey; // 서명 키
+    private final long validityInMilliseconds; // 토큰 유효 시간
+    private final UserDetailsService userDetailsService;
+
+    // 생성자에서 secretKey와 토큰 유효시간을 설정
+    public JwtTokenProvider(UserDetailsService userDetailsService, String secret, long validityInMilliseconds) {
+        this.userDetailsService = userDetailsService;
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        this.validityInMilliseconds = validityInMilliseconds; // 유효시간
+    }
+
+    // JWT 토큰 생성
+    public String generateToken(String username) {
+        Claims claims = Jwts.claims().setSubject(username); // 사용자 이름 설정
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now) // 발행 시간
+                .setExpiration(validity) // 만료 시간
+                .signWith(secretKey, SignatureAlgorithm.HS256) // 서명
+                .compact();
+    }
+
+    // JWT 토큰에서 사용자 이름 추출
+    public String getUsernameFromToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    // JWT 토큰 유효성 확인
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Invalid JWT Token: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // 인증 객체 생성
+    public Authentication getAuthentication(String token) {
+        String username = getUsernameFromToken(token);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    // HTTP 요청에서 JWT 토큰 추출
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7); // "Bearer " 이후의 토큰 반환
+        }
+        return null;
+    }
+}
