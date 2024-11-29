@@ -31,7 +31,7 @@ function Board() {
   // 원형 도형 클릭 이벤트 핸들러
   const handleCircleClick = (id) => {
     console.log(`Circle with ID ${id} clicked`);
-    // 원하는 동작을 여기에 추가
+    // 원하는 동작을 여기에 추가함
   };
 
   return (
