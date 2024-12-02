@@ -10,10 +10,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fundsite.fund_web_backend.model.Donation;
+import fundsite.fund_web_backend.model.User;
 import fundsite.fund_web_backend.service.DonationService;
+import fundsite.fund_web_backend.service.FileService;
+import fundsite.fund_web_backend.service.UserService;
+import fundsite.fund_web_backend.util.JwtTokenProvider;
 
 @RestController
 @RequestMapping("/api/donations")
@@ -22,6 +30,17 @@ public class DonationController {
     @Autowired
     private DonationService donationService;
 
+    @Autowired
+    private UserService userService;
+    
+    private final JwtTokenProvider jwtTokenProvider;
+    
+    @Autowired
+    private FileService fileService;
+
+    DonationController(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     /**
      * 상위 3개의 기부 항목 반환
@@ -64,6 +83,51 @@ public class DonationController {
         }
     }
     
+    
+    @PostMapping("/create")
+    public ResponseEntity<?> createDonationBoard(
+            @RequestHeader("Authorization") String token,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("data") String data) {
+        try {
+            // Extract user ID from token
+            String parsedToken = token.replace("Bearer ", "");
+            String username = jwtTokenProvider.getUsernameFromToken(parsedToken);
+
+            // Retrieve user by username
+            User user = userService.getUserByUsername(username);
+            Long userId = user.getId(); // userId를 가져옵니다.
+
+            // Parse JSON data
+            ObjectMapper objectMapper = new ObjectMapper();
+            Donation donation = objectMapper.readValue(data, Donation.class);
+
+            // Set the creator ID
+            donation.setCreater_id(userId);
+
+            // Save the donation and image
+            Donation savedDonation = donationService.createDonation(donation);
+            String imagePath = fileService.saveFile(file, savedDonation.getId());
+            savedDonation.setMainImage(imagePath);
+
+            // Update donation with image path
+            Donation updatedDonation = donationService.createDonation(savedDonation);
+
+            // Return response
+            return ResponseEntity.ok(Map.of(
+                    "status", "success",
+                    "message", "기부 게시판이 성공적으로 생성되었습니다.",
+                    "data", updatedDonation
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                    "status", "error",
+                    "message", "기부 게시판 생성 중 오류가 발생했습니다.",
+                    "error", e.getMessage()
+            ));
+        }
+    }
+
     
     
     @PostMapping("/detail")

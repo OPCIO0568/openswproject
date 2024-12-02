@@ -15,6 +15,7 @@ public class Donation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long creater_id; // 기부게시판 만든이
 
     private Long donationType; // 기부 타입
     private String title; // 제목
@@ -23,7 +24,7 @@ public class Donation {
     private String mainImage; // 주 이미지 URL
 
     private Double goalAmount; // 목표 금액
-    private Double collectedAmount; // 모인 금액
+    private Double collectedAmount = 0.0; // 모인 금액 (0 초기화)
 
     
 

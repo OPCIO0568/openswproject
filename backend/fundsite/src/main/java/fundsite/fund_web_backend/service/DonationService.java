@@ -45,6 +45,10 @@ public class DonationService {
         return donationRepository.findById(id).orElse(null);
     }
     
+    public Donation createDonation(Donation donation) {
+        return donationRepository.save(donation);
+    }
+    
     @Transactional
     public void donate(Long donationId, String token, double amount) {
         // 사용자 정보 가져오기
