@@ -1,44 +1,40 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Axios로 API 호출
+import axios from 'axios';
+import { useAuth } from './AuthContext';
 
-import './LoginPage.css';
-
-function LoginPage({ onLogin }) {
+function LoginPage() {
+  const { handleLogin } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // 로그인 API 호출
-      const response = await axios.post('http://localhost:8080/auth/login', {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        'http://localhost:8080/auth/login',
+        { username, password },
+        { withCredentials: true }
+      );
 
-      // 성공 시 토큰 저장 및 부모 컴포넌트로 전달
       const { token, message } = response.data;
-      localStorage.setItem('token', token); // 토큰 로컬 스토리지에 저장
-      onLogin({ username, message }); // 부모 컴포넌트로 전달
-      navigate('/'); // 메인 페이지로 이동
-    } catch (error) {
-      // 실패 시 에러 메시지 처리
-      if (error.response && error.response.data.error) {
-        setError(error.response.data.error);
+      if (message === 'Login successful') {
+        handleLogin({ username, token });
+        navigate('/');
       } else {
-        setError('An unexpected error occurred. Please try again.');
+        setError('Unexpected server response');
       }
+    } catch (error) {
+      setError(error.response?.data?.error || 'An unexpected error occurred.');
     }
   };
 
   return (
     <div className="loginBox">
       <h1>Login</h1>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLoginSubmit}>
         <div className="formGroup">
           <label htmlFor="username">Username:</label>
           <input

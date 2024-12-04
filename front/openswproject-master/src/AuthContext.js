@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -6,29 +6,34 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  // 로그인 상태 복원
   useEffect(() => {
     const token = localStorage.getItem('token');
     const storedUsername = localStorage.getItem('username');
     if (token && storedUsername) {
-      validateToken()
+      validateToken(token)
         .then(() => {
           setIsLoggedIn(true);
           setUsername(storedUsername);
         })
-        .catch(() => handleLogout());
+        .catch(() => handleLogout())
+        .finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
     }
   }, []);
 
-  // 토큰 검증
-  const validateToken = () => {
-    const token = localStorage.getItem('token');
-    if (!token) return Promise.reject('No token found');
-    return axios.post('http://localhost:8080/api/verify-token', { token });
+  const validateToken = async (token) => {
+    try {
+      await axios.post('http://localhost:8080/api/verify-token', { token });
+      return true;
+    } catch (error) {
+      console.error('토큰 검증 실패:', error);
+      return false;
+    }
   };
 
-  // 로그인 처리
   const handleLogin = (user) => {
     localStorage.setItem('token', user.token);
     localStorage.setItem('username', user.username);
@@ -36,8 +41,12 @@ export const AuthProvider = ({ children }) => {
     setUsername(user.username);
   };
 
-  // 로그아웃 처리
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:8080/api/logout');
+    } catch (error) {
+      console.warn('로그아웃 실패 (무시 가능):', error);
+    }
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     setIsLoggedIn(false);
@@ -52,11 +61,15 @@ export const AuthProvider = ({ children }) => {
         handleLogin,
         handleLogout,
         validateToken,
+        isLoading,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
+
+// useAuth 훅 정의 및 내보내기
+export const useAuth = () => useContext(AuthContext);
 
 export default AuthContext;

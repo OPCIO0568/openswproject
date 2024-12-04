@@ -1,10 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./PostCard.css";
 
-function PostCard({ postNumber, image, title, subtitle, goalAmount, currentAmount }) {
+function PostCard({ id, postNumber, image, title, subtitle, goalAmount, currentAmount }) {
+  const navigate = useNavigate();
   const progressPercentage = (currentAmount / goalAmount) * 100;
+
+  const handleCardClick = () => {
+    if (!id) {
+      console.error("PostCard id is undefined.");
+      return;
+    }
+    console.log(`Navigating to post with id: ${id}`); // Debugging log
+    navigate(`/AllDonationPost/PostDetail/${id}`); // Navigate to the correct URL
+  };
+
   return (
-    <div className="post-card">
+    <div className="post-card" onClick={handleCardClick} style={{ cursor: "pointer" }}>
       <img src={image} alt={`Post ${postNumber}`} className="post-image" />
       <div className="post-content">
         <h3>{title}</h3>
