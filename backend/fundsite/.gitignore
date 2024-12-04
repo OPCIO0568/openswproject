@@ -47,7 +47,6 @@ Thumbs.db
 *.log
 
 # 환경 설정 파일
-application.properties
 application.yml
 .env
 

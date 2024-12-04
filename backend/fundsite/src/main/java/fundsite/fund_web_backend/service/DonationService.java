@@ -28,6 +28,10 @@ public class DonationService {
 
     @Autowired
     private UserService userService; // UserService 활용
+    
+    public List<Donation> getAllDonation() {
+        return donationRepository.findAll();
+    }
 
     public List<Donation> getDonationsByTitle(String title) {
         return donationRepository.findByTitleContainingIgnoreCase(title);

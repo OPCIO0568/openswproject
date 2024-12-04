@@ -1,14 +1,19 @@
 package fundsite.fund_web_backend.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import fundsite.fund_web_backend.model.Donation;
 import fundsite.fund_web_backend.service.DonationService;
 import fundsite.fund_web_backend.service.LikeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/donations")
@@ -19,6 +24,53 @@ public class DonationPublicController {
 
     @Autowired
     private LikeService likeService;
+    
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllDonations() {
+        try {
+            // DonationService를 통해 모든 기부 데이터를 조회
+            List<Donation> donations = donationService.getAllDonation();
+
+            // 데이터가 비어 있는 경우 처리
+            if (donations.isEmpty()) {
+                return ResponseEntity.status(204).body(Map.of(
+                    "status", "success",
+                    "message", "현재 등록된 기부 게시판 정보가 없습니다.",
+                    "data", List.of()
+                ));
+            }
+
+            // 응답 데이터를 구조화하여 반환
+            List<Map<String, Object>> responseData = donations.stream()
+                    .map(donation -> Map.<String, Object>of(
+                        "id", donation.getId(),
+                        "title", donation.getTitle(),
+                        "subtitle", donation.getSubtitle(),
+                        "description", donation.getDescription(),
+                        "goalAmount", donation.getGoalAmount(),
+                        "collectedAmount", donation.getCollectedAmount(),
+                        "donationType", donation.getDonationType(),
+                        "mainImage", donation.getMainImage(),
+                        "createrId", donation.getCreater_id()
+                    ))
+                    .toList();
+
+            return ResponseEntity.ok(Map.of(
+                "status", "success",
+                "message", "모든 기부 게시판 정보가 성공적으로 반환되었습니다.",
+                "data", responseData
+            ));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                "status", "error",
+                "message", "모든 기부 게시판 정보를 조회하는 중 오류가 발생했습니다.",
+                "details", e.getMessage()
+            ));
+        }
+    }
+
+
 
 
     /**
