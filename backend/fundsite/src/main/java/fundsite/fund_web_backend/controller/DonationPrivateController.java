@@ -80,37 +80,24 @@ public class DonationPrivateController {
     /**
      * 기부 게시판 삭제
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteDonationBoard(
             @RequestHeader("Authorization") String token,
-            @RequestBody Map<String, Object> payload) {
+            @PathVariable("id") Long donationId) { // 명시적으로 변수 이름 설정
         try {
-            // 요청 JSON에서 ID 추출
-            if (!payload.containsKey("id") || payload.get("id") == null) {
-                return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "Donation ID is required."));
-            }
-
-            Long donationId = Long.parseLong(payload.get("id").toString());
-
-            // JWT 토큰에서 "Bearer " 부분 제거
             String parsedToken = token.replace("Bearer ", "");
-
-            // DonationService를 통해 삭제 요청
             donationService.deleteDonation(donationId, parsedToken);
 
-            // 성공 응답
             return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "message", "기부 게시판이 성공적으로 삭제되었습니다."
             ));
         } catch (RuntimeException e) {
-            // 처리할 수 없는 요청 응답
             return ResponseEntity.status(403).body(Map.of(
                     "status", "error",
                     "message", e.getMessage()
             ));
         } catch (Exception e) {
-            // 서버 오류 응답
             return ResponseEntity.status(500).body(Map.of(
                     "status", "error",
                     "message", "기부 게시판 삭제 중 오류가 발생했습니다.",
@@ -118,6 +105,8 @@ public class DonationPrivateController {
             ));
         }
     }
+
+
 
 
     /**
