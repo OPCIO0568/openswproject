@@ -1,37 +1,36 @@
-HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Eclipse 관련 파일
+.metadata/
+*.tmp
+*.bak
+*.swp
+*~.nib
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+# 빌드 결과물
+/build/
+!/src/main/resources/
+!/src/main/resources/**
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# OS 별 불필요 파일
+.DS_Store
+Thumbs.db
+
+# IntelliJ IDEA 관련 파일
+.idea/
 *.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Gradle Wrapper 파일
+.gradle/
+!gradle-wrapper.jar
 
-### VS Code ###
-.vscode/
+# 로그 파일
+*.log
+
+# 환경 설정 파일
+application.properties
+application.yml
+.env
+
+# 캐시 및 임시 파일
+*.class
+*.war
+*.jar
