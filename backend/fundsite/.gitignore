@@ -1,26 +1,47 @@
+# Gradle 관련 파일
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# 소스 코드 하위 디렉토리 내 빌드 및 바이너리 파일은 제외하지 않음
+!**/src/main/**/build/
+!**/src/test/**/build/
+
 # Eclipse 관련 파일
 .metadata/
-*.tmp
-*.bak
-*.swp
-*~.nib
-
-# 빌드 결과물
-/build/
-!/src/main/resources/
-!/src/main/resources/**
-
-# OS 별 불필요 파일
-.DS_Store
-Thumbs.db
+.settings/
+.project
+.classpath
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
 
 # IntelliJ IDEA 관련 파일
 .idea/
+*.iws
 *.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
-# Gradle Wrapper 파일
-.gradle/
-!gradle-wrapper.jar
+# NetBeans 관련 파일
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Visual Studio Code 관련 파일
+.vscode/
+
+# 운영 체제 관련 파일
+.DS_Store
+Thumbs.db
 
 # 로그 파일
 *.log
@@ -30,7 +51,5 @@ application.properties
 application.yml
 .env
 
-# 캐시 및 임시 파일
-*.class
-*.war
-*.jar
+# Markdown Documentation
+HELP.md
