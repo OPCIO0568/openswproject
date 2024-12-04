@@ -29,6 +29,9 @@ public class DonationService {
     @Autowired
     private UserService userService; // UserService 활용
     
+    @Autowired
+    private FileService fileService;
+    
     public List<Donation> getAllDonation() {
         return donationRepository.findAll();
     }
@@ -80,4 +83,31 @@ public class DonationService {
         history.setTimestamp(LocalDateTime.now());
         donationHistoryRepository.save(history);
     }
+    
+    @Transactional
+    public void deleteDonation(Long donationId, String token) {
+        // JWT 토큰에서 사용자 정보 가져오기
+        User user = userService.getUserFromToken(token);
+
+        // 삭제하려는 기부 게시판 가져오기
+        Donation donation = donationRepository.findById(donationId)
+                .orElseThrow(() -> new RuntimeException("Donation board not found."));
+
+        // 작성자 확인
+        if (!donation.getCreater_id().equals(user.getId())) {
+            throw new RuntimeException("You are not authorized to delete this donation board.");
+        }
+
+        // 업로드된 파일 삭제
+        try {
+            fileService.deleteFilesByDonationId(donationId);
+        } catch (Exception e) {
+            // 로그 기록
+            System.err.println("Error deleting files: " + e.getMessage());
+        }
+
+        // 기부 게시판 삭제 (연관 데이터는 자동 삭제)
+        donationRepository.delete(donation);
+    }
+
 }

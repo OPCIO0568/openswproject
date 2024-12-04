@@ -1,11 +1,13 @@
 package fundsite.fund_web_backend.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileService {
@@ -28,5 +30,16 @@ public class FileService {
 
         // Return the URL path (relative to the upload directory)
         return "/images/" + donationId + "/" + fileName;
+    }
+    
+    public void deleteFilesByDonationId(Long donationId) throws Exception {
+        Path folderPath = Paths.get(uploadDir, String.valueOf(donationId));
+
+        if (Files.exists(folderPath)) {
+            Files.walk(folderPath)
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+        }
     }
 }
