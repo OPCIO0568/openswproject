@@ -1,0 +1,87 @@
+package fundsite.fund_web_backend.controller;
+
+import fundsite.fund_web_backend.model.Donation;
+import fundsite.fund_web_backend.service.DonationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/public/donations")
+public class DonationPublicController {
+
+    @Autowired
+    private DonationService donationService;
+
+    /**
+     * 제목 또는 기부 타입으로 기부 항목 검색
+     */
+    @PostMapping("/search")
+    public ResponseEntity<?> searchDonations(@RequestBody Map<String, Object> searchCriteria) {
+        String title = (String) searchCriteria.get("title");
+        Long donationType = searchCriteria.get("donationType") != null
+                ? Long.valueOf(searchCriteria.get("donationType").toString())
+                : null;
+
+        if (title == null && donationType == null) {
+            return ResponseEntity.badRequest()
+                    .body("검색 조건(title 또는 donationType)을 하나 이상 제공해야 합니다.");
+        }
+
+        try {
+            List<Donation> results;
+            if (title != null) {
+                results = donationService.getDonationsByTitle(title);
+            } else {
+                results = donationService.getDonationsByType(donationType);
+            }
+            return ResponseEntity.ok(results);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("검색 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 기부 게시판 상세 조회
+     */
+    @PostMapping("/detail")
+    public ResponseEntity<?> getDonationDetail(@RequestBody Map<String, Object> payload) {
+        try {
+            if (!payload.containsKey("id") || payload.get("id") == null) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Donation ID is required"));
+            }
+
+            Long id;
+            try {
+                id = Long.parseLong(payload.get("id").toString());
+            } catch (NumberFormatException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Donation ID must be a valid number"));
+            }
+
+            Donation donation = donationService.getDonationById(id);
+
+            if (donation == null) {
+                return ResponseEntity.status(404).body(Map.of("error", "Donation not found"));
+            }
+
+            return ResponseEntity.ok(Map.of(
+                    "id", donation.getId(),
+                    "title", donation.getTitle(),
+                    "subtitle", donation.getSubtitle(),
+                    "description", donation.getDescription(),
+                    "goalAmount", donation.getGoalAmount(),
+                    "collectedAmount", donation.getCollectedAmount(),
+                    "donationType", donation.getDonationType(),
+                    "mainImage", donation.getMainImage()
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                    "error", "An unexpected error occurred",
+                    "details", e.getMessage()
+            ));
+        }
+    }
+}

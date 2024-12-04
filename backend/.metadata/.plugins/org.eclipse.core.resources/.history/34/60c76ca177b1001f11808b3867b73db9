@@ -1,0 +1,45 @@
+package fundsite.fund_web_backend.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import fundsite.fund_web_backend.model.Donation;
+import fundsite.fund_web_backend.model.Like;
+import fundsite.fund_web_backend.repository.DonationRepository;
+import fundsite.fund_web_backend.repository.LikeRepository;
+
+@Service
+public class LikeService {
+
+    @Autowired
+    private LikeRepository likeRepository;
+
+    @Autowired
+    private DonationRepository donationRepository;
+
+    public String likeDonation(Long userId, Long donationId) {
+        Donation donation = donationRepository.findById(donationId)
+                .orElseThrow(() -> new RuntimeException("기부 게시물을 찾을 수 없습니다."));
+
+        Optional<Like> existingLike = likeRepository.findByUserIdAndDonation(userId, donation);
+
+        if (existingLike.isPresent()) {
+            return "이미 좋아요를 누르셨습니다.";
+        }
+
+        Like like = new Like();
+        like.setUserId(userId);
+        like.setDonation(donation);
+
+        likeRepository.save(like);
+        return "좋아요 성공!";
+    }
+
+    public Long getLikeCount(Long donationId) {
+        Donation donation = donationRepository.findById(donationId)
+                .orElseThrow(() -> new RuntimeException("기부 게시물을 찾을 수 없습니다."));
+        return likeRepository.countByDonation(donation);
+    }
+}

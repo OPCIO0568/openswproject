@@ -1,0 +1,37 @@
+package fundsite.fund_web_backend.service;
+
+import fundsite.fund_web_backend.model.Like;
+import fundsite.fund_web_backend.model.Post;
+import fundsite.fund_web_backend.model.User;
+import fundsite.fund_web_backend.repository.LikeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class LikeService {
+    @Autowired
+    private LikeRepository likeRepository;
+
+    public String likePost(User user, Post post) {
+        Optional<Like> existingLike = likeRepository.findByUserAndPost(user, post);
+
+        if (existingLike.isPresent()) {
+            return "이미 좋아요를 눌렀습니다.";
+        }
+
+        Like like = new Like();
+        like.setUser(user);
+        like.setPost(post);
+        like.setLikedAt(LocalDateTime.now());
+
+        likeRepository.save(like);
+
+        return "좋아요 성공!";
+    }
+
+    public Long getLikeCount(Post post) {
+        return likeRepository.countByPost(post);
+    }
+}

@@ -1,0 +1,31 @@
+package fundsite.fund_web_backend.controller;
+
+import fundsite.fund_web_backend.model.Post;
+import fundsite.fund_web_backend.model.User;
+import fundsite.fund_web_backend.service.LikeService;
+import fundsite.fund_web_backend.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/posts")
+public class PostController {
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private PostService postService;
+
+    @PostMapping("/{postId}/like")
+    public String likePost(@PathVariable Long postId, @RequestParam Long userId) {
+        Post post = postService.findById(postId);
+        User user = userService.findById(userId); // userService 구현 필요
+        return likeService.likePost(user, post);
+    }
+
+    @GetMapping("/{postId}/like/count")
+    public Long getLikeCount(@PathVariable Long postId) {
+        Post post = postService.findById(postId);
+        return likeService.getLikeCount(post);
+    }
+}
