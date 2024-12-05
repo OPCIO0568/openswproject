@@ -1,0 +1,68 @@
+/* 전체 컨테이너 스타일 */
+.mypage-container {
+  width: 100%;
+  max-width: 250px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+/* 타이틀 스타일 */
+.mypage-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 0 0 20px 0;
+}
+
+/* 버튼 공통 스타일 */
+.mypage-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+/* 마이페이지로 가기 버튼 */
+.mypage-main-button {
+  background-color: #ff6347; /* 배경색 주황색 */
+}
+.mypage-main-button:hover {
+  background-color: #e94e3b; /* 호버 시 더 어두운 주황색 */
+}
+
+/* 글 생성 버튼 */
+.mypage-create-button {
+  background-color: #4caf50; /* 배경색 초록색 */
+}
+.mypage-create-button:hover {
+  background-color: #45a049; /* 호버 시 더 어두운 초록색 */
+}
+
+/* 기부, 스타트업, 펀딩 링크 컨테이너 */
+.AllDonationPost-path {
+  margin-top: 20px; /* 위 버튼들과의 간격 */
+}
+
+/* 각 링크 스타일 */
+.mypage-link {
+  display: block; /* 블록으로 설정해 각 줄 차지 */
+  font-size: 1rem; /* 글자 크기 */
+  color: #007bff; /* 기본 글자색 파란색 */
+  text-decoration: none; /* 밑줄 제거 */
+  margin: 10px 0; /* 위아래 간격 */
+  transition: color 0.3s ease; /* 색상 전환 효과 */
+}
+
+/* 링크 호버 효과 */
+.mypage-link:hover {
+  color: #0056b3; /* 호버 시 더 어두운 파란색 */
+  text-decoration: underline; /* 호버 시 밑줄 표시 */
+}

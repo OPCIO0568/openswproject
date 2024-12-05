@@ -1,0 +1,300 @@
+/* 전체 컨테이너 */
+.board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 30px;
+    max-width: 2000px;
+    margin: 0 auto;
+  }
+  
+  /* 캐러셀 컨테이너 */
+  .carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .carousel {
+    display: flex;
+    transition: transform 1s ease-in-out; /* 슬라이드 전환 시 부드러운 애니메이션 */
+  }
+  
+  .carousel-slide {
+    min-width: 100%; /* 슬라이드 하나가 부모 컨테이너 크기와 동일하도록 설정 */
+    position: relative; /* 슬라이드 내부 요소 위치를 기준으로 함 */
+    text-align: center; /* 슬라이드 내부 콘텐츠를 가운데 정렬 */
+  }
+  /* 전체 컨테이너 */
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* 상단 원형 그림 컨테이너 */
+.circle-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 20px;
+}
+
+.circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.circle:hover {
+  transform: scale(1.1);
+}
+
+.circle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 하단 컨텐츠 (슬라이드 + 빈 공간) */
+.content-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 왼쪽 슬라이드 */
+.carousel-container {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+
+.carousel {
+  display: flex;
+  transition: transform 1s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  position: relative;
+  text-align: center;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.banner-description {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 20px;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.banner-description.visible {
+  opacity: 1;
+  transform: translateX(-50%);
+}
+
+.banner-description.hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
+}
+
+/* 오른쪽 빈 공간 */
+.empty-box {
+  flex: 1;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  height: 100%;
+}
+
+  .carousel-image {
+    width: 100%; /* 이미지를 슬라이드 크기에 맞게 설정 */
+    height: 100%; /* 이미지 비율 유지 */
+    object-fit: cover; /* 사진의 비율을 유지하며 컨테이너에 맞게 자름 */
+  }
+  
+/* 문구 초기 상태 */
+.banner-description {
+  position: absolute; /* 슬라이드 안에서 고정 위치 */
+  bottom: 50px; /* 슬라이드 하단에서 20px 위로 배치 */
+  left: 17%; /* 슬라이드의 가로 중앙에 배치 */
+  transform: translateX(-50%) translateY(20px); /* 초기 위치: 아래쪽 */
+  color: #fff; /* 텍스트 색상: 흰색 */
+  padding: 10px 20px; /* 문구 내부 여백 */
+  border-radius: 8px; /* 모서리를 둥글게 */
+  font-size: 20px; /* 텍스트 크기 */
+  font-weight: 500; /* 텍스트 중간 굵기 */
+  font-family: "Poppins", sans-serif; /* 부드러운 느낌의 글씨체 */
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* 텍스트 뒤 검정 그림자 */
+  background: rgba(0, 0, 0, 0.4); /* 반투명 검정 배경 */
+  backdrop-filter: blur(8px); /* 배경 블러 효과 */
+  opacity: 0; /* 기본 상태: 완전히 숨김 */
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* 부드러운 애니메이션 */
+}
+  
+  /* 문구가 보일 때 (새로 생성) */
+  .banner-description.visible {
+    opacity: 1; /* 완전히 보이도록 설정 */
+    transform: translateX(-50%) translateY(0); /* 원래 위치로 이동 */
+  }
+  
+  /* 문구가 숨길 때 */
+  .banner-description.hidden {
+    opacity: 0; /* 숨김 상태 */
+    transform: translateX(-50%) translateY(20px); /* 아래로 내려가면서 사라짐 */
+  }
+  
+  .circle-container{
+    display: flex; /* 자식 요소들을 가로로 나열 */
+    justify-content: center; /* 자식 요소들을 가로 방향으로 가운데 정렬 */
+    align-items: center; /* 세로 방향으로도 가운데 정렬 */
+    gap: 100px; /* 원형 도형들 간의 간격 */
+    margin: 20px 0; /* 상하 간격 설정 */
+  }
+
+  .circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .circle:hover {
+    transform: scale(1.1); /* 마우스 오버 시 크기 확대 */
+  }
+  
+  .circle-image {
+    width: 100%; /* 이미지가 원형 도형 크기에 맞게 설정 */
+    height: 100%; /* 이미지 비율 유지 */
+    object-fit: cover; /* 이미지가 원형 도형 안에 꽉 차도록 설정 */
+  }
+  
+  .empty-box {
+    flex: 1;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 20px; /* 내용물을 위한 패딩 추가 */
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .Ranking {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .Rankbox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .RankItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .RankItem:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .RankNumber {
+    font-size: 20px;
+    font-weight: bold;
+    width: 30px;
+    text-align: center;
+  }
+  
+  .PostTitle {
+    flex: 1;
+    font-size: 18px;
+  }
+  
+  .PostLike {
+    font-size: 16px;
+    color: #888;
+  }
+/* 기존 CSS 코드 유지 */
+
+/* 메인 이미지 컨테이너 */
+.Main-Page-Pic {
+  width: 100%;
+  height: 40%; /* 원하는 높이로 설정 */ 
+  overflow: hidden;
+  position: relative;
+  
+}
+
+/* 메인 이미지 */
+.mainpic {
+  width: 100%;
+  height: auto;
+  position: relative;
+  clip-path: inset(80px 0 20px 0); /* 위 20px, 오른쪽 0, 아래 20px, 왼쪽 0 */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.main-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .main-text {
+    font-size: 32px;
+  }
+}

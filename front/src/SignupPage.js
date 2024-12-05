@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './LoginPage.css'; // 기존 로그인 스타일 재활용
 import axios from 'axios'; // Axios를 사용한 API 호출
+import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate 훅
 
 function SignupPage() {
   const [username, setUsername] = useState('');
@@ -9,6 +10,8 @@ function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [nickname, setNickname] = useState(''); // 닉네임 추가
   const [message, setMessage] = useState(''); // 성공/실패 메시지 저장
+
+  const navigate = useNavigate(); // 페이지 이동 훅
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -33,6 +36,11 @@ function SignupPage() {
         setPassword('');
         setConfirmPassword('');
         setNickname('');
+
+        // 회원가입 성공 시 로그인 페이지로 이동
+        setTimeout(() => {
+          navigate('/login'); // '/login' 페이지로 이동
+        }, 2000); // 메시지 표시 후 2초 뒤 이동
       }
     } catch (error) {
       // 실패 메시지 처리

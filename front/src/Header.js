@@ -19,23 +19,26 @@ function Header() {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '20px',
+        padding: '10px',
         borderBottom: '1px solid #ddd',
         fontFamily: 'Arial, sans-serif',
       }}
     >
       <button
-          style={{
-            fontSize: '2rem',
-            fontWeight: 'bold',
-            background: 'none',
-            color: '#000', // 글자색을 검정으로 명시
-            border: 'none',
-            cursor: 'pointer',
-          }}
-          onClick={handleMainClick}
-              >
-        기 뻔
+        style={{
+          fontSize: '2rem',
+          fontWeight: 'bold',
+          background: 'none',
+          color: '#000', // 글자색 검정
+          border: '2px solid #000', // 검은색 테두리 추가
+          borderRadius: '10px', // 모서리를 둥글게
+          padding: '5px 15px', // 내부 여백 추가
+          cursor: 'pointer',
+          fontFamily: "'Playfair Display', serif", // 우아한 글씨체
+        }}
+        onClick={handleMainClick}
+      >
+        Giffun
       </button>
 
       <div>
