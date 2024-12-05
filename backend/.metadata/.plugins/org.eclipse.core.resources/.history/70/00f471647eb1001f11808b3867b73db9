@@ -1,5 +1,0 @@
-package fundsite.fund_web_backend.dto;
-
-public class DonationDTO {
-
-}

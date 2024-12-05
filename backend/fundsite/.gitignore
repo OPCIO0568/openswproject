@@ -8,6 +8,7 @@ build/
 !**/src/test/**/build/
 
 # Eclipse 관련 파일
+backend/.metadata/
 .metadata/
 .settings/
 .project
@@ -47,7 +48,6 @@ Thumbs.db
 *.log
 
 # 환경 설정 파일
-application.yml
 .env
 
 # Markdown Documentation
