@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +26,8 @@ public class Donation {
     private Long donationType; // 기부 타입
     private String title; // 제목
     private String subtitle; // 부제목
+    
+    @Column(columnDefinition = "TEXT")   
     private String description; // 설명
     private String mainImage; // 주 이미지 URL
 

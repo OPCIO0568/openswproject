@@ -1,6 +1,21 @@
 package fundsite.fund_web_backend.controller;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import fundsite.fund_web_backend.model.Donation;
 import fundsite.fund_web_backend.model.User;
 import fundsite.fund_web_backend.service.DonationService;
@@ -8,12 +23,6 @@ import fundsite.fund_web_backend.service.FileService;
 import fundsite.fund_web_backend.service.LikeService;
 import fundsite.fund_web_backend.service.UserService;
 import fundsite.fund_web_backend.util.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/private/donations")
@@ -112,38 +121,49 @@ public class DonationPrivateController {
     /**
      * 좋아요 처리
      */
-    @PostMapping("/like")
+    @PostMapping("/like/{id}")
     public ResponseEntity<?> likeDonation(
-            @RequestBody Map<String, Object> payload,
+            @PathVariable("id") Long donationId,
             @RequestHeader("Authorization") String token) {
         try {
+            // 토큰에서 사용자 이름 추출
             String parsedToken = token.replace("Bearer ", "");
             String username = jwtTokenProvider.getUsernameFromToken(parsedToken);
 
+            // 사용자 정보 조회
             User user = userService.getUserByUsername(username);
 
-            if (!payload.containsKey("id") || payload.get("id") == null) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Donation ID is required"));
-            }
-
-            Long donationId = Long.parseLong(payload.get("id").toString());
+            // 기부 정보 조회
             Donation donation = donationService.getDonationById(donationId);
 
             if (donation == null) {
-                return ResponseEntity.status(404).body(Map.of("error", "Donation not found"));
+                return ResponseEntity.status(404).body(Map.of(
+                    "error", "Donation not found"
+                ));
             }
 
+            // 좋아요 처리
             String result = likeService.likeDonation(user.getId(), donation);
 
-            return ResponseEntity.ok(Map.of("message", result));
+            // 결과 반환
+            return ResponseEntity.ok(Map.of(
+                "message", result
+            ));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "error", "잘못된 요청입니다.",
+                "details", e.getMessage()
+            ));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of(
-                    "error", "좋아요 처리 중 오류 발생",
-                    "details", e.getMessage()
+                "error", "좋아요 처리 중 오류 발생",
+                "details", e.getMessage()
             ));
         }
     }
 
+
+    
     /**
      * 기부 처리
      */

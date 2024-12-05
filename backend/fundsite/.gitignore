@@ -8,7 +8,6 @@ build/
 !**/src/test/**/build/
 
 # Eclipse 관련 파일
-backend/.metadata/
 .metadata/
 .settings/
 .project
@@ -20,6 +19,12 @@ backend/.metadata/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+*.log
+*.snap
+*.index
+*.prefs
+*.ser
+*.xml
 
 # IntelliJ IDEA 관련 파일
 .idea/

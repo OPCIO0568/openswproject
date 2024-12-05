@@ -15,21 +15,27 @@ public class LikeService {
     private LikeRepository likeRepository;
 
     public String likeDonation(Long userId, Donation donation) {
+        // 좋아요 여부 확인
         Optional<Like> existingLike = likeRepository.findByUserIdAndDonation(userId, donation);
 
         if (existingLike.isPresent()) {
-            return "이미 좋아요를 누르셨습니다.";
+            // 기존 좋아요 삭제
+            likeRepository.delete(existingLike.get());
+            return "좋아요 취소.";
         }
+        else { 
+        	// 새로운 좋아요 추가
+        	Like like = new Like();
+        	like.setUserId(userId);
+        	like.setDonation(donation);
+        	likeRepository.save(like);
 
-        Like like = new Like();
-        like.setUserId(userId);
-        like.setDonation(donation);
-        likeRepository.save(like);
-
-        return "좋아요 성공!";
+        	return "좋아요 성공!";
+        }
     }
 
     public Long getLikeCount(Donation donation) {
         return likeRepository.countByDonation(donation);
     }
+    
 }

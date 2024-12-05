@@ -44,6 +44,12 @@ public class DonationService {
         return donationRepository.findByDonationType(donationType);
     }
     
+    public User getUserByCreaterId(Long createrId) {
+        return userRepository.findById(createrId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + createrId));
+    }
+
+    
 
     public Donation getDonationById(Long id) {
         return donationRepository.findById(id).orElse(null);

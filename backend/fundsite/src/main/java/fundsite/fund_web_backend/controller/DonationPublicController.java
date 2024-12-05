@@ -6,12 +6,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fundsite.fund_web_backend.model.Donation;
+import fundsite.fund_web_backend.model.User;
 import fundsite.fund_web_backend.service.DonationService;
 import fundsite.fund_web_backend.service.LikeService;
 
@@ -24,6 +26,7 @@ public class DonationPublicController {
 
     @Autowired
     private LikeService likeService;
+    
     
     @GetMapping("/all")
     public ResponseEntity<?> getAllDonations() {
@@ -42,17 +45,24 @@ public class DonationPublicController {
 
             // 응답 데이터를 구조화하여 반환
             List<Map<String, Object>> responseData = donations.stream()
-                    .map(donation -> Map.<String, Object>of(
-                        "id", donation.getId(),
-                        "title", donation.getTitle(),
-                        "subtitle", donation.getSubtitle(),
-                        "description", donation.getDescription(),
-                        "goalAmount", donation.getGoalAmount(),
-                        "collectedAmount", donation.getCollectedAmount(),
-                        "donationType", donation.getDonationType(),
-                        "mainImage", donation.getMainImage(),
-                        "createrId", donation.getCreater_id()
-                    ))
+                    .map(donation -> {
+                        // createrId를 기반으로 User 조회
+                        User creator = donationService.getUserByCreaterId(donation.getCreater_id());
+                        Long likeCount = likeService.getLikeCount(donation);
+                        
+                        return Map.<String, Object>of(
+                            "id", donation.getId(),
+                            "title", donation.getTitle(),
+                            "subtitle", donation.getSubtitle(),
+                            "description", donation.getDescription(),
+                            "goalAmount", donation.getGoalAmount(),
+                            "collectedAmount", donation.getCollectedAmount(),
+                            "donationType", donation.getDonationType(),
+                            "mainImage", donation.getMainImage(),
+                            "username", creator.getUsername(), // 변경된 부분
+                            "LikeCount", likeCount
+                        );
+                    })
                     .toList();
 
             return ResponseEntity.ok(Map.of(
@@ -69,6 +79,7 @@ public class DonationPublicController {
             ));
         }
     }
+
 
 
 
@@ -145,48 +156,48 @@ public class DonationPublicController {
     /**
      * 기부 게시판 상세 조회
      */
-    @PostMapping("/detail")
-    public ResponseEntity<?> getDonationDetail(@RequestBody Map<String, Object> payload) {
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<?> getDonationDetail(@PathVariable("id") Long id) {
         try {
-            if (!payload.containsKey("id") || payload.get("id") == null) {
-                return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "Donation ID is required"));
-            }
-
-            Long id;
-            try {
-                id = Long.parseLong(payload.get("id").toString());
-            } catch (NumberFormatException e) {
-                return ResponseEntity.badRequest().body(Map.of("status", "error", "message", "Donation ID must be a valid number"));
-            }
-
+            // Donation 조회
             Donation donation = donationService.getDonationById(id);
-
+            Long likeCount = likeService.getLikeCount(donation);
             if (donation == null) {
-                return ResponseEntity.status(404).body(Map.of("status", "error", "message", "Donation not found"));
+                return ResponseEntity.status(404).body(Map.of(
+                    "status", "error",
+                    "message", "Donation not found"
+                ));
             }
 
+            // User 정보 가져오기
+            User creator = donationService.getUserByCreaterId(donation.getCreater_id());
+
+            // 응답 데이터 반환
             return ResponseEntity.ok(Map.of(
-                    "status", "success",
-                    "message", "기부 게시판 상세 정보가 성공적으로 반환되었습니다.",
-                    "data", Map.of(
-                        "id", donation.getId(),
-                        "collectedAmount", donation.getCollectedAmount(),
-                        "createrId", donation.getCreater_id(),
-                        "description", donation.getDescription(),
-                        "donationType", donation.getDonationType(),
-                        "goalAmount", donation.getGoalAmount(),
-                        "mainImage", donation.getMainImage(),
-                        "subtitle", donation.getSubtitle(),
-                        "title", donation.getTitle()
-                    )
+                "status", "success",
+                "message", "기부 게시판 상세 정보가 성공적으로 반환되었습니다.",
+                "data", Map.of(
+                    "id", donation.getId(),
+                    "collectedAmount", donation.getCollectedAmount(),
+                    "username", creator.getUsername(), // 변경된 부분
+                    "description", donation.getDescription(),
+                    "donationType", donation.getDonationType(),
+                    "goalAmount", donation.getGoalAmount(),
+                    "mainImage", donation.getMainImage(),
+                    "subtitle", donation.getSubtitle(),
+                    "title", donation.getTitle(),
+                    "likeCount", likeCount
+                )
             ));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of(
-                    "status", "error",
-                    "message", "An unexpected error occurred",
-                    "details", e.getMessage()
+                "status", "error",
+                "message", "An unexpected error occurred",
+                "details", e.getMessage()
             ));
         }
     }
+
+
 
 }
