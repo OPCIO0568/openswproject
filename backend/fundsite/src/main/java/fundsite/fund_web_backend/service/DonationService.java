@@ -2,10 +2,13 @@ package fundsite.fund_web_backend.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import fundsite.fund_web_backend.dto.DonationDTO;
 import fundsite.fund_web_backend.model.Donation;
 import fundsite.fund_web_backend.model.DonationHistory;
 import fundsite.fund_web_backend.model.User;
@@ -19,18 +22,15 @@ public class DonationService {
 	
 	@Autowired
     private UserRepository userRepository;
-
     @Autowired
     private DonationRepository donationRepository;
-
     @Autowired
     private DonationHistoryRepository donationHistoryRepository;
-
     @Autowired
-    private UserService userService; // UserService 활용
-    
+    private UserService userService; // UserService 활용 
     @Autowired
     private FileService fileService;
+ 
     
     public List<Donation> getAllDonation() {
         return donationRepository.findAll();
@@ -48,9 +48,61 @@ public class DonationService {
         return userRepository.findById(createrId)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + createrId));
     }
+ // findById 메서드 추가
+    public Donation findById(Long id) {
+        Optional<Donation> donation = donationRepository.findById(id);
+        if (donation.isPresent()) {
+            // 강제로 연관 데이터를 초기화
+            donation.get().getLikes().size();
+        }
+        return donation.orElse(null);
+    }
 
+    // save 메서드 추가
+    public Donation save(Donation donation) {
+        return donationRepository.save(donation);
+    }
+
+    public DonationDTO convertToDTO(Donation donation) {
+        DonationDTO dto = new DonationDTO();
+        dto.setId(donation.getId());
+        dto.setTitle(donation.getTitle());
+        dto.setSubtitle(donation.getSubtitle());
+        dto.setDescription(donation.getDescription());
+        dto.setGoalAmount(donation.getGoalAmount());
+        dto.setDonationType(donation.getDonationType());
+        return dto;
+    }
+
+ // Update Donation
+    public Donation updateDonation(Long donationId, Donation newDonationData, MultipartFile file) throws Exception {
+        // 1. 기존 데이터 조회
+        Optional<Donation> optionalDonation = donationRepository.findById(donationId);
+        if (!optionalDonation.isPresent()) {
+            throw new Exception("Donation with ID " + donationId + " not found.");
+        }
+        Donation existingDonation = optionalDonation.get();
+
+        // 2. 데이터 업데이트
+        existingDonation.setTitle(newDonationData.getTitle());
+        existingDonation.setSubtitle(newDonationData.getSubtitle());
+        existingDonation.setDescription(newDonationData.getDescription());
+        existingDonation.setGoalAmount(newDonationData.getGoalAmount());
+        existingDonation.setDonationType(newDonationData.getDonationType());
+
+        // 3. 파일 업데이트 처리
+        if (file != null && !file.isEmpty()) {
+            // 기존 파일 삭제
+            fileService.deleteFile(donationId);
+
+            // 새 파일 저장
+            fileService.saveFile(file, donationId);
+        }
+
+        // 4. 데이터 저장
+        return donationRepository.save(existingDonation);
+    }
     
-
     public Donation getDonationById(Long id) {
         return donationRepository.findById(id).orElse(null);
     }
@@ -106,7 +158,7 @@ public class DonationService {
 
         // 업로드된 파일 삭제
         try {
-            fileService.deleteFilesByDonationId(donationId);
+            fileService.deleteFile(donationId);
         } catch (Exception e) {
             // 로그 기록
             System.err.println("Error deleting files: " + e.getMessage());

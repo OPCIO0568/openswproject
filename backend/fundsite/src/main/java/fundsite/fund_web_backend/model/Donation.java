@@ -3,6 +3,8 @@ package fundsite.fund_web_backend.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +37,7 @@ public class Donation {
     private Double collectedAmount = 0.0; // 모인 금액 (0 초기화)
 
     @OneToMany(mappedBy = "donation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Like> likes = new ArrayList<>();
     
     @OneToMany(mappedBy = "donation", cascade = CascadeType.ALL, orphanRemoval = true)

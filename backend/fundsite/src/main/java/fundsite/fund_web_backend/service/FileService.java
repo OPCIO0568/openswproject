@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,12 +31,15 @@ public class FileService {
         return "/images/" + donationId + "/" + fileName;
     }
     
-    public void deleteFilesByDonationId(Long donationId) throws Exception {
+    public void deleteFile(Long donationId) throws Exception {
+        // Generate folder path using donation ID
         Path folderPath = Paths.get(uploadDir, String.valueOf(donationId));
 
+        // Check if folder exists
         if (Files.exists(folderPath)) {
+            // Delete files and folder
             Files.walk(folderPath)
-                .sorted(Comparator.reverseOrder())
+                .sorted((path1, path2) -> path2.compareTo(path1)) // Sort in reverse order for proper deletion
                 .map(Path::toFile)
                 .forEach(File::delete);
         }

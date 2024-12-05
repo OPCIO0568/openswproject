@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import fundsite.fund_web_backend.dto.DonationDTO;
 import fundsite.fund_web_backend.model.Donation;
 import fundsite.fund_web_backend.model.User;
 import fundsite.fund_web_backend.service.DonationService;
@@ -114,6 +116,29 @@ public class DonationPrivateController {
             ));
         }
     }
+    
+    
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateDonationBoard(
+            @PathVariable("id") Long donationId,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam("data") String data) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Donation donationData = objectMapper.readValue(data, Donation.class);
+
+            // Update donation logic
+            Donation updatedDonation = donationService.updateDonation(donationId, donationData, file);
+
+            // Convert to DTO
+            DonationDTO donationDTO = donationService.convertToDTO(updatedDonation);
+
+            return ResponseEntity.ok(donationDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
 
 
