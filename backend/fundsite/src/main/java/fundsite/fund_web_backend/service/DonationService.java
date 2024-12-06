@@ -11,9 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 import fundsite.fund_web_backend.dto.DonationDTO;
 import fundsite.fund_web_backend.model.Donation;
 import fundsite.fund_web_backend.model.DonationHistory;
+import fundsite.fund_web_backend.model.DonationReview;
 import fundsite.fund_web_backend.model.User;
 import fundsite.fund_web_backend.repository.DonationHistoryRepository;
 import fundsite.fund_web_backend.repository.DonationRepository;
+import fundsite.fund_web_backend.repository.DonationReviewRepository;
 import fundsite.fund_web_backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
@@ -26,6 +28,8 @@ public class DonationService {
     private DonationRepository donationRepository;
     @Autowired
     private DonationHistoryRepository donationHistoryRepository;
+    @Autowired
+    private DonationReviewRepository donationReviewRepository;
     @Autowired
     private UserService userService; // UserService 활용 
     @Autowired
@@ -42,6 +46,13 @@ public class DonationService {
     @Transactional
     public List<Donation> getDonationsByType(Long donationType) {
         return donationRepository.findByDonationType(donationType);
+    }
+    public Donation getDonationById(Long id) {
+        return donationRepository.findById(id).orElse(null);
+    }
+    
+    public Donation createDonation(Donation donation) {
+        return donationRepository.save(donation);
     }
     
     public User getUserByCreaterId(Long createrId) {
@@ -103,13 +114,6 @@ public class DonationService {
         return donationRepository.save(existingDonation);
     }
     
-    public Donation getDonationById(Long id) {
-        return donationRepository.findById(id).orElse(null);
-    }
-    
-    public Donation createDonation(Donation donation) {
-        return donationRepository.save(donation);
-    }
     
     @Transactional
     public void donate(Long donationId, String token, double amount) {
@@ -140,7 +144,20 @@ public class DonationService {
         history.setAmount(amount);
         history.setTimestamp(LocalDateTime.now());
         donationHistoryRepository.save(history);
+
+        // 목표 금액 도달 여부 확인 후 후기 생성
+        if (donation.getCollectedAmount() >= donation.getGoalAmount() && !donation.getIsGoalAchieved()) {
+            donation.setIsGoalAchieved(true); // 목표 도달 상태 업데이트
+            donationRepository.save(donation);
+
+            // 빈 후기 생성
+            DonationReview review = new DonationReview();
+            review.setDonation(donation);
+            review.setIsCompleted(false); // 초기 상태
+            donationReviewRepository.save(review);
+        }
     }
+
     
     @Transactional
     public void deleteDonation(Long donationId, String token) {

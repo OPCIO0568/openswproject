@@ -36,6 +36,8 @@ public class Donation {
     private Double goalAmount; // 목표 금액
     private Double collectedAmount = 0.0; // 모인 금액 (0 초기화)
 
+    private Boolean isGoalAchieved = false;
+
     @OneToMany(mappedBy = "donation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Like> likes = new ArrayList<>();

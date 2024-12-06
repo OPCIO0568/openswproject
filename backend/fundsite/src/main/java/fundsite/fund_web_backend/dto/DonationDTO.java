@@ -12,6 +12,7 @@ public class DonationDTO {
     private String description;
     private Double goalAmount;
     private Long donationType;
+    
 
     // Getter, Setter, Constructor
 }
