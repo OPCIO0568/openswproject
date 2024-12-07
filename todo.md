@@ -9,6 +9,11 @@
 (첫api는 front → back / 다음 api는 back → front)
 
 ## 1. 게시글 수정 api
+1. 하나하나 고치는 방식 X
+2. 통째로 가져와서 고칠부분을 고침
+3. 통째로 보내면 수정함
+
+약간 처음부터 다시 만드는 느낌?
 
 ```html
 PUT /api/private/donations/update/14 HTTP/1.1
