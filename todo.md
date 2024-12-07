@@ -61,8 +61,14 @@ Cookie: JSESSIONID=260D3DDB6694BCEF3255B5FB385D8589
     {
         "id": 1,
         "content": "We are thrilled to announce that we have reached our goal. Thank you for your support!",
-        "isCompleted": true,
+        "isReviewed": true,
         "donationTitle": "Help this poor student"
+    },
+    {
+        "id": 2,
+        "content": null,
+        "isReviewed": false,
+        "donationTitle": "aaa"
     }
 ]
 ```
