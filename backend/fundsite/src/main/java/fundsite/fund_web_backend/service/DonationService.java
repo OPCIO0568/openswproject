@@ -117,7 +117,7 @@ public class DonationService {
     
     @Transactional
     public void donate(Long donationId, String token, double amount) {
-        // 사용자 정보 가져오기
+        // 사용자 정보 가져오기	
         User user = userService.getUserFromToken(token);
 
         // 기부 항목 가져오기
@@ -153,7 +153,7 @@ public class DonationService {
             // 빈 후기 생성
             DonationReview review = new DonationReview();
             review.setDonation(donation);
-            review.setIsCompleted(false); // 초기 상태
+            review.setIsReviewed(false); // 초기 상태
             donationReviewRepository.save(review);
         }
     }
@@ -177,12 +177,12 @@ public class DonationService {
         try {
             fileService.deleteFile(donationId);
         } catch (Exception e) {
-            // 로그 기록
             System.err.println("Error deleting files: " + e.getMessage());
         }
 
-        // 기부 게시판 삭제 (연관 데이터는 자동 삭제)
+        // Donation 삭제 (CascadeType.REMOVE 설정으로 연관 데이터 자동 삭제)
         donationRepository.delete(donation);
     }
+
 
 }

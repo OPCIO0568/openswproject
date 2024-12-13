@@ -25,6 +25,11 @@ public class UserService {
     public boolean validateToken(String token) {
         return jwtTokenProvider.validateToken(token);
     }
+    
+    @Transactional
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
 
     public User getUserFromToken(String token) {
         String username = jwtTokenProvider.getUsernameFromToken(token);
