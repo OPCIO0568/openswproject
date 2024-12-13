@@ -103,24 +103,33 @@ Cookie: JSESSIONID=260D3DDB6694BCEF3255B5FB385D8589
 ## 4. 리뷰 게시글 쓰기([http://localhost:8080/api/reviews/{reviewId}/submit](http://localhost:8080/api/reviews/%7BreviewId%7D/submit))
 
 ```html
-POST /api/reviews/1/submit HTTP/1.1
-Host: localhost:8080
-Content-Type: application/json
-Authorization: ••••••
-Cookie: JSESSIONID=260D3DDB6694BCEF3255B5FB385D8589
-Content-Length: 107
+POST /api/reviews/5/submit HTTP/1.1
+Host: localhost:8081
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2RmIiwiaWF0IjoxNzM0MDc5NjU2LCJleHAiOjE3MzQwODMyNTZ9.p_L6jbenC_WXdN_q2FAUetUXY8ZvyRlAbkUPaXEiXWE
+Cookie: JSESSIONID=E14FC064B88586E016BEBE0E8593D2A1
+Content-Length: 386
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="[PROXY]"
+Content-Type: <Content-Type header here>
+
+(data)
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="data"
 
 {
   "content": "We are thrilled to announce that we have reached our goal. Thank you for your support!"
 }
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 ```
 
 ```html
 {
-    "id": 1,
-    "content": "We are thrilled to announce that we have reached our goal. Thank you for your support!",
-    "isCompleted": true,
-    "donationTitle": "Help this poor student"
+    "status": "success",
+    "message": "리뷰가 성공적으로 제출되었습니다.",
+    "imagePath": "/images/review/5/review_5_fall2.png"
 }
 ```
 
