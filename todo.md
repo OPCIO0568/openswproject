@@ -149,6 +149,32 @@ Content-Length: 29
 }
 ```
 
+## 6. 프로필 사진 업로드
+```html
+POST /api/users/uploadProfileImage HTTP/1.1
+Host: localhost:8080
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2RmIiwiaWF0IjoxNzM0MDc1OTU1LCJleHAiOjE3MzQwNzk1NTV9.YH0f6W20dB1AOFU-aIzm3mvKJdJFaSA4ONBm0r62j_g
+Cookie: JSESSIONID=776F0EAE278E3A7CDC23FCDF66F961ED
+Content-Length: 195
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="[PROXY]"
+Content-Type: <Content-Type header here>
+
+(data)
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+```
+
+```html
+{
+    "status": "success",
+    "message": "프로필 이미지가 성공적으로 업로드되었습니다.",
+    "imagePath": "/images/user/1/asdf_shoot1.png"
+}
+```
+
 # 요구사항
 
 1. 기부사이트 소개 페이지 추가
