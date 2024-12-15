@@ -1,7 +1,5 @@
 package fundsite.fund_web_backend.controller;
 
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,7 @@ import fundsite.fund_web_backend.model.ReviewComment;
 import fundsite.fund_web_backend.model.User;
 import fundsite.fund_web_backend.repository.DonationReviewRepository;
 import fundsite.fund_web_backend.repository.ReviewCommentRepository;
+import fundsite.fund_web_backend.service.FileService;
 import fundsite.fund_web_backend.service.UserService;
 import fundsite.fund_web_backend.util.JwtTokenProvider;
 
@@ -36,6 +35,8 @@ public class PrivateReviewController {
     private ReviewCommentRepository reviewCommentRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private FileService fileService;
 
     private final JwtTokenProvider jwtTokenProvider;
     PrivateReviewController(JwtTokenProvider jwtTokenProvider) {
@@ -49,38 +50,23 @@ public class PrivateReviewController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("data") String data) {
         try {
-            // JWT 토큰에서 사용자 정보 추출
             String parsedToken = token.replace("Bearer ", "");
             String username = jwtTokenProvider.getUsernameFromToken(parsedToken);
             User user = userService.getUserByUsername(username);
 
-            // JSON 데이터를 DonationReview 객체로 변환
             ObjectMapper objectMapper = new ObjectMapper();
             DonationReview updatedReview = objectMapper.readValue(data, DonationReview.class);
 
-            // 기존 리뷰 조회
             DonationReview existingReview = donationReviewRepository.findById(reviewId)
                     .orElseThrow(() -> new RuntimeException("Review not found"));
 
-            // 권한 확인
             if (!existingReview.getDonation().getCreater_id().equals(user.getId())) {
                 throw new RuntimeException("Not authorized to submit this review.");
             }
 
-            // 파일 저장 처리
-            String uploadDir = "/Users/jjs_0/Desktop/mnt/data/reviewImages/" + reviewId;
-            String fileName = "review_" + reviewId + "_" + file.getOriginalFilename();
-            java.nio.file.Path filePath = java.nio.file.Paths.get(uploadDir, fileName);
-
-            // 디렉토리 생성
-            java.nio.file.Files.createDirectories(java.nio.file.Paths.get(uploadDir));
-
-            // 파일 저장
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-            // 리뷰 데이터 업데이트
+            String imagePath = fileService.saveReviewFile(file, reviewId);
             existingReview.setContent(updatedReview.getContent());
-            existingReview.setImagePath("/images/review/" + reviewId + "/" + fileName);
+            existingReview.setImagePath(imagePath);
             existingReview.setIsReviewed(true);
 
             donationReviewRepository.save(existingReview);
@@ -88,7 +74,7 @@ public class PrivateReviewController {
             return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "message", "리뷰가 성공적으로 제출되었습니다.",
-                    "imagePath", "/images/review/" + reviewId + "/" + fileName
+                    "imagePath", imagePath
             ));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of(
@@ -98,6 +84,7 @@ public class PrivateReviewController {
             ));
         }
     }
+
 
 
 
@@ -124,7 +111,7 @@ public class PrivateReviewController {
         comment.setCreatedBy(user);
         reviewCommentRepository.save(comment);
 
-        return ResponseEntity.ok(new DonationReviewDTO(review));
+        return ResponseEntity.ok(new DonationReviewDTO(review, username));
     }
 
 

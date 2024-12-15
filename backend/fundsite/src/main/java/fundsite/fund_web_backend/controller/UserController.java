@@ -1,10 +1,9 @@
 package fundsite.fund_web_backend.controller;
 
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import fundsite.fund_web_backend.model.DonationHistory;
 import fundsite.fund_web_backend.model.User;
 import fundsite.fund_web_backend.service.DonationHistoryService;
+import fundsite.fund_web_backend.service.FileService;
 import fundsite.fund_web_backend.service.UserService;
 import fundsite.fund_web_backend.util.JwtTokenProvider;
 
@@ -28,6 +28,8 @@ public class UserController {
 	private final UserService userService;
     private final DonationHistoryService donationHistoryService;
     private final JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private FileService fileService;
 
     public UserController(UserService userService, 
                           DonationHistoryService donationHistoryService,
@@ -79,32 +81,21 @@ public class UserController {
             String username = jwtTokenProvider.getUsernameFromToken(parsedToken);
 
             User user = userService.getUserByUsername(username);
+            String imagePath = fileService.saveUserProfileFile(file, user.getId(), user.getUsername());
 
-            // 파일 저장 경로 설정
-            String uploadDir = "/Users/jjs_0/Desktop/mnt/data/userProfiles/" + user.getId();
-            String fileName = user.getUsername() + "_" + file.getOriginalFilename();
-            java.nio.file.Path filePath = java.nio.file.Paths.get(uploadDir, fileName);
-
-            // 디렉토리 생성
-            java.nio.file.Files.createDirectories(java.nio.file.Paths.get(uploadDir));
-
-            // 파일 저장
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-            // 사용자 프로필 이미지 경로 업데이트
-            user.setProfilepath("/images/user/" + user.getId() + "/" + fileName);
+            user.setProfilepath(imagePath);
             userService.saveUser(user);
 
             return ResponseEntity.ok(Map.of(
-                "status", "success",
-                "message", "프로필 이미지가 성공적으로 업로드되었습니다.",
-                "imagePath", "/images/user/" + user.getId() + "/" + fileName
+                    "status", "success",
+                    "message", "프로필 이미지가 성공적으로 업로드되었습니다.",
+                    "imagePath", imagePath
             ));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of(
-                "status", "error",
-                "message", "프로필 이미지 업로드 중 오류가 발생했습니다.",
-                "error", e.getMessage()
+                    "status", "error",
+                    "message", "프로필 이미지 업로드 중 오류가 발생했습니다.",
+                    "error", e.getMessage()
             ));
         }
     }

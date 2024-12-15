@@ -65,11 +65,10 @@ public class DonationPrivateController {
 
             ObjectMapper objectMapper = new ObjectMapper();
             Donation donation = objectMapper.readValue(data, Donation.class);
-
             donation.setCreater_id(userId);
 
             Donation savedDonation = donationService.createDonation(donation);
-            String imagePath = fileService.saveFile(file, savedDonation.getId());
+            String imagePath = fileService.saveDonationFile(file, savedDonation.getId());
             savedDonation.setMainImage(imagePath);
 
             Donation updatedDonation = donationService.createDonation(savedDonation);
@@ -87,6 +86,7 @@ public class DonationPrivateController {
             ));
         }
     }
+
     
     /**
      * 기부 게시판 삭제

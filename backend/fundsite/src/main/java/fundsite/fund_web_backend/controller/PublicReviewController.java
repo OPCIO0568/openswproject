@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import fundsite.fund_web_backend.dto.DonationReviewDTO;
 import fundsite.fund_web_backend.model.DonationReview;
 import fundsite.fund_web_backend.model.ReviewComment;
+import fundsite.fund_web_backend.model.User;
 import fundsite.fund_web_backend.repository.DonationReviewRepository;
+import fundsite.fund_web_backend.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/public/reviews")
@@ -22,6 +24,8 @@ public class PublicReviewController {
 
     @Autowired
     private DonationReviewRepository donationReviewRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * 모든 리뷰 조회
@@ -31,9 +35,14 @@ public class PublicReviewController {
         List<DonationReview> reviews = donationReviewRepository.findAll();
 
         // DTO로 변환하여 반환
-        List<DonationReviewDTO> reviewDTOs = reviews.stream()
-                .map(DonationReviewDTO::new)
-                .toList();
+        List<DonationReviewDTO> reviewDTOs = reviews.stream().map(review -> {
+            // creater_id를 통해 username 조회
+            Long creatorId = review.getDonation().getCreater_id();
+            String username = userRepository.findById(creatorId)
+                    .map(User::getUsername)
+                    .orElse("Unknown");
+            return new DonationReviewDTO(review, username); // username 전달
+        }).toList();
 
         return ResponseEntity.ok(reviewDTOs);
     }

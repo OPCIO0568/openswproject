@@ -29,7 +29,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 활성화
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/api/public/**","/images/**").permitAll() // 인증 없이 허용
+                .requestMatchers("/auth/**", "/api/public/**","/images/**", "/images/review/**").permitAll() // 인증 없이 허용
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
