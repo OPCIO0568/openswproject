@@ -140,22 +140,34 @@ function PostDetail() {
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
+  
+      // 폼 데이터 생성
+      const formData = new FormData();
+      formData.append("file", post.file || new Blob()); // 파일 업로드, 파일이 없으면 빈 Blob
+      formData.append(
+        "data",
+        JSON.stringify({
+          title: post.title,
+          subtitle: post.subtitle,
+          description: editedDescription,
+          goalAmount: post.goalAmount,
+          donationType: 2,
+        })
+      );
+  
       const response = await fetch(
         `http://localhost:8080/api/private/donations/update/${postId}`,
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ description: editedDescription }),
+          body: formData, // 멀티파트 폼 데이터 전송
         }
       );
-
-      if (!response.ok) {
-        throw new Error("게시글 수정에 실패했습니다.");
-      }
-
+  
+      if (!response.ok) throw new Error("게시글 수정에 실패했습니다.");
+  
       alert("게시글이 수정되었습니다.");
       setIsEditing(false); // 수정 모드 종료
       fetchPostDetail(); // 수정된 내용 다시 가져오기
@@ -281,6 +293,7 @@ function PostDetail() {
           )}
         </div>
       </div>
+      
       <div className="mypage-container">
         <MyPage />
       </div>

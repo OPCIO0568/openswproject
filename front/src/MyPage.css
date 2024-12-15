@@ -7,6 +7,7 @@
   border-radius: 4px;
   background-color: #f9f9f9;
   box-sizing: border-box;
+  opacity: 0.9; /* 전체 카드 투명도 */
 }
 
 /* 타이틀 스타일 */

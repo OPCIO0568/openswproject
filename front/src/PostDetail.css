@@ -1,13 +1,15 @@
 /* 전체 레이아웃 정의 */
 .post-detail-layout {
-  display: flex; /* 레이아웃을 수평으로 정렬 */
-  justify-content: space-between; /* 컨텐츠 간의 간격을 균등 분배 */
-  align-items: flex-start; /* 컨텐츠를 위쪽에 정렬 */
-  width: 100%; /* 전체 너비 */
-  max-width: 1200px; /* 최대 너비 제한 */
-  margin: 20px auto; /* 상하 여백 20px, 수평 가운데 정렬 */
-  padding: 20px; /* 내부 여백 */
-  box-sizing: border-box; /* 패딩과 테두리를 포함한 박스 크기 계산 */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  height: calc(100vh - 60px); /* 전체 높이에서 footer 높이 제외 */
+  overflow: hidden; /* 레이아웃 전체에서 스크롤 제거 */
 }
 
 /* 포스트 세부 정보 컨테이너 */
@@ -20,6 +22,9 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   box-sizing: border-box; /* 패딩 포함 크기 계산 */
   margin-right: 20px; /* 오른쪽 여백 */
+  max-height: calc(100vh - 120px); /* 전체 높이에서 header/footer 제외 */
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  overflow-x: hidden; /* 가로 스크롤 제거 */
 }
 
 /* 상단 박스: 이미지와 정보 영역 */

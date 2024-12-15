@@ -1,0 +1,88 @@
+/* 전역 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Review 컨테이너 */
+.review-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8); 
+  border: 1px solid rgba(0, 0, 0, 0.2); 
+  border-radius: 8px;
+  backdrop-filter: blur(5px); 
+  height: 100vh; 
+  width: 80%;
+  margin: 0 auto;
+  overflow-y: auto; 
+  margin-top: 1%;
+}
+
+/* 각 리뷰 박스 */
+.review-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 10px 0;
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-image {
+  width: auto;
+  height: 14vh;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.review-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  flex: 1;
+  text-align: center;
+}
+
+.unreviewed-title {
+  color: red;
+  font-weight: bold;
+}
+
+.review-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.review-status {
+  font-size: 18px;
+  color: #555;
+}
+
+.progress-bar-container {
+  width: 150px;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}

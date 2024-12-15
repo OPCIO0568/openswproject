@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import Board from './Board';
-import Footer from './Footer';
 import AllDonationPost from './AllDonationPost';
 import MyPage from './MyPage';
 import './App.css';
@@ -12,8 +11,12 @@ import SignupPage from './SignupPage';
 import CreatePostPage from './CreatePostPage';
 import PostDetail from './PostDetail';
 import PrivateRoute from './PrivateRoute';
+import Introduce from './Introduce';
+import Review from './Review';
+import ReviewDetail from './ReviewDetail';
 import { AuthProvider } from './AuthContext'; // AuthProvider 사용
 import { BackgroundProvider } from './BackgroundContext';
+
 
 function App() {
   return (
@@ -48,8 +51,12 @@ function App() {
                 <Route path="/AllDonationPost/CreatePostPage" element={<CreatePostPage />} />
                 <Route path="/AllDonationPost/PostDetail/:postId" element={<PostDetail />} />
                 <Route path="/CreatePostPage" element={<CreatePostPage />} />
+                <Route path="/Introduce" element={<Introduce />} />
+                <Route path="/Review" element={<Review />} />
+                <Route path="/ReviewDetail/:reviewId" element={<ReviewDetail />} />
+
+                
               </Routes>
-              <Footer />
             </div>
 
           </div>

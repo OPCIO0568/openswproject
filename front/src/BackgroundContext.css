@@ -1,0 +1,9 @@
+.background-container {
+  background-size: cover; /* 배경을 화면 전체에 맞춤 */
+  background-position: center; /* 배경을 중앙에 위치 */
+  background-attachment: fixed; /* 배경 고정 */
+  min-height: 100vh; /* 화면 전체 높이 */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}

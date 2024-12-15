@@ -1,0 +1,164 @@
+/* 전체 컨테이너 */
+.review-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  width: 80%;
+  height: 90vh; /* 화면의 90% 높이 */
+  overflow-y: auto; /* 스크롤 추가 */
+}
+
+/* 메인 콘텐츠 박스 */
+.maincontain {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  background: #f4f4f4;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.mainimage {
+  width: 40%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.plain-box {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  color: #333;
+}
+
+/* 댓글 섹션 */
+.review-contain {
+  width: 100%;
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 댓글 입력 섹션 */
+.review-input-contain {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.review-input {
+  flex: 1;
+  padding: 15px 20px;
+  font-size: 16px;
+  height: 45px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+.review-upload {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.review-upload:hover {
+  background: #0056b3;
+}
+
+/* 댓글 섹션 */
+.review-comment {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.reviews {
+  background: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #555;
+}
+
+.reviews p {
+  margin: 5px 0;
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+  .maincontain {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mainimage {
+    width: 100%;
+  }
+
+  .plain-box {
+    width: 100%;
+  }
+
+  .review-contain {
+    width: 100%;
+  }
+}
+
+.review-image-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.comment-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+.original-post-button {
+  padding: 10px 20px;
+  background: #28a745;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.original-post-button:hover {
+  background: #218838;
+}
