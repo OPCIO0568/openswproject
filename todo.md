@@ -151,10 +151,13 @@ Content-Length: 29
 
 ```html
 {
-    "id": 1,
-    "content": "We are thrilled to announce that we have reached our goal. Thank you for your support!",
-    "isCompleted": true,
-    "donationTitle": "Help this poor student"
+    "id": 5,
+    "donationId": 25,
+    "username": "asdf",
+    "donationTitle": "Support Education",
+    "imagePath": "/images/review/5/review_5_images (1).jpg",
+    "content": "ㅁㄴㅇㄻㄴㅇ",
+    "isReviewed": true
 }
 ```
 
