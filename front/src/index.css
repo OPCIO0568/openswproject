@@ -11,6 +11,7 @@ html, body, #root {
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto; /* 수직 스크롤 가능 */
+  background-color: #FFEBCD;
 }
 
 body {

@@ -180,18 +180,23 @@ function ReviewDetail() {
               </div>
             )}
             <div className="review-comment">
-              {comments.length > 0 ? (
-                comments.map((comment) => (
-                  <div key={comment.id} className="reviews">
-                    <p>{comment.content}</p>
-                    <p>작성자: {comment.createdBy.username}</p>
-                    <p>작성 시간: {new Date(comment.createdAt).toLocaleString()}</p>
-                  </div>
-                ))
-              ) : (
-                <p>댓글이 없습니다.</p>
-              )}
-            </div>
+  {comments.length > 0 ? (
+    comments.map((comment) => (
+      <div key={comment.id} className="reviews">
+        <p>{comment.content}</p>
+        <div className="comment-meta">
+          <span>작성자: {comment.createdBy.username}</span>
+          <span style={{ marginLeft: "10px" }}>
+            {new Date(comment.createdAt).toLocaleString()}
+          </span>
+        </div>
+      </div>
+    ))
+  ) : (
+    <p>댓글이 없습니다.</p>
+  )}
+</div>
+
           </div>
         </>
       ) : (

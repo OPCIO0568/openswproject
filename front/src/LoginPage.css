@@ -4,7 +4,7 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    background-color: #f9f9f9;
+    background-color: #fffff0;
     text-align: center;
 }
 
@@ -34,9 +34,9 @@
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
+    background-color: #FFEBCD;
+    border: 0.5px solid #cdc293;
+    color: black;
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;

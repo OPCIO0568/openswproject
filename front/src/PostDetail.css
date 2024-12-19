@@ -238,3 +238,8 @@
 .post-delete-button:hover {
   background-color: #c0392b; /* 더 진한 빨간색 */
 }
+
+.ps {
+  color: green !important;
+  font-weight: bold;
+}

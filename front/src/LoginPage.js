@@ -79,7 +79,7 @@ function LoginPage() {
       </form>
       <p>
         계정이 없으신가요?{' '}
-        <Link to="/signup" style={{ color: '#4CAF50', textDecoration: 'none' }}>
+        <Link to="/signup" style={{ color: '#cdc293', textDecoration: 'none' }}>
           회원가입
         </Link>
       </p>

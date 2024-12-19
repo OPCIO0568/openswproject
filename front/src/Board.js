@@ -11,19 +11,19 @@ function Board() {
       id: 1,
       imageUrl: "https://cdn.digitaltoday.co.kr/news/photo/202307/481900_449732_412.jpg",
       description: "혁신의 새로운 정의, 비전프로를 통해 경험하다",
-      path: "/AllDonationPost/PostDetail/22"
+      path: "/AllDonationPost/PostDetail/21"
     },
     {
       id: 2,
       imageUrl: "https://www.globalnewsagency.kr/news/photo/202209/269741_273679_3434.jpg",
       description: "기근의 사슬을 끊다 - 아프리카 아이들에게 희망의 밥상을",
-      path: "/AllDonationPost/PostDetail/20"
+      path: "/AllDonationPost/PostDetail/2"
     },
     {
       id: 3,
       imageUrl: "https://static.wanted.co.kr/images/events/3066/5391ccc8.jpg",
       description: "20대 창업가의 날개를 펼치다 - 세상을 바꾸는 작은 시작",
-      path: "/AllDonationPost/PostDetail/21"
+      path: "/AllDonationPost/PostDetail/3"
     }
   ];
 

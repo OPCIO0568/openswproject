@@ -47,7 +47,7 @@
   color: #333;
 }
 
-/* 댓글 섹션 */
+/* 리뷰 섹션 */
 .review-contain {
   width: 100%;
   margin-top: 20px;
@@ -97,6 +97,7 @@
   padding-right: 10px;
 }
 
+/* 댓글 항목 스타일 */
 .reviews {
   background: #f9f9f9;
   padding: 15px;
@@ -105,6 +106,16 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 16px;
   color: #555;
+  position: relative;
+}
+
+/* 작성자 및 시간 */
+.reviews .comment-meta {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 14px;
+  color: #888;
+  margin-top: 10px;
 }
 
 .reviews p {
@@ -129,8 +140,17 @@
   .review-contain {
     width: 100%;
   }
+
+  .review-input {
+    font-size: 14px;
+  }
+
+  .review-upload {
+    font-size: 14px;
+  }
 }
 
+/* 이미지 파일 입력 */
 .review-image-input {
   padding: 10px;
   font-size: 16px;
@@ -146,6 +166,7 @@
   border-radius: 8px;
 }
 
+/* 원 게시글 버튼 */
 .original-post-button {
   padding: 10px 20px;
   background: #28a745;

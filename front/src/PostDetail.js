@@ -293,7 +293,6 @@ function PostDetail() {
           )}
         </div>
       </div>
-      
       <div className="mypage-container">
         <MyPage />
       </div>

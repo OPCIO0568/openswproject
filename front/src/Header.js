@@ -25,7 +25,7 @@ function Header() {
     padding: '10px',
     borderBottom: '1px solid #ddd',
     fontFamily: 'Arial, sans-serif',
-    backgroundColor: 'rgb(255, 255, 255)',
+    backgroundColor: '#fffff0',
     gap: '20px'  // 버튼 간격 추가
   }}
 >
@@ -50,14 +50,15 @@ function Header() {
       fontSize: '1.5rem',
       fontWeight: 'bold',
       background: 'none',
+      border: 'none',
       color: '#000',
       padding: '5px 15px',
       cursor: 'pointer',
-      fontFamily: "'Playfair Display', serif",
+      fontFamily: "'Noto Sans', sans-serif",
     }}
     onClick={handleIntroClick}
   >
-    사이트 소개
+    Giffun 소개
   </button>
 
   <button
@@ -66,13 +67,14 @@ function Header() {
       fontWeight: 'bold',
       background: 'none',
       color: '#000',
+      border: 'none',
       padding: '5px 15px',
       cursor: 'pointer',
-      fontFamily: "'Playfair Display', serif",
+      fontFamily: "'Noto Sans', sans-serif",
     }}
     onClick={handleReviewClick}
   >
-    후기 게시판
+    후기글
   </button>
 
   <button
@@ -81,13 +83,14 @@ function Header() {
       fontWeight: 'bold',
       background: 'none',
       color: '#000',
+      border: 'none',
       padding: '5px 15px',
       cursor: 'pointer',
-      fontFamily: "'Playfair Display', serif",
+      fontFamily: "'Noto Sans', sans-serif",
     }}
     onClick={handleADClick  }
   >
-    게시판
+    모든 기부글
   </button>
 
   <div style={{ marginLeft: 'auto' }}>
@@ -99,10 +102,11 @@ function Header() {
           style={{
             padding: '8px 16px',
             borderRadius: '4px',
-            backgroundColor: '#FF6347',
-            color: 'white',
-            border: 'none',
+            backgroundColor: '#FFEBCD',
+            border: '0.5px solid #cdc293',
+            color: 'black',
             cursor: 'pointer',
+            fontWeight: 'bold',
           }}
         >
           로그아웃
@@ -114,10 +118,11 @@ function Header() {
         style={{
           padding: '8px 16px',
           borderRadius: '4px',
-          backgroundColor: '#4CAF50',
-          color: 'white',
-          border: 'none',
+          backgroundColor: '#FFEBCD',
+          border: '0.5px solid #cdc293',
+          color: 'black',
           cursor: 'pointer',
+          fontWeight: 'bold',
         }}
       >
         로그인

@@ -11,7 +11,8 @@ export const BackgroundProvider = ({ children }) => {
       <div
         className="background-container"
         style={{
-          backgroundImage: `url(${backgroundImage})`,
+          //backgroundImage: `url(${backgroundImage})`,
+          backgroundColor: "#FFEBCD",
         }}
       >
         {children}

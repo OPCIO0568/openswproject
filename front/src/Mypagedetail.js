@@ -85,10 +85,15 @@ function Mypagedetail() {
         },
       });
       setUserData((prevData) => ({ ...prevData, ...userResponse.data }));
+      window.open(
+        'https://new-m.pay.naver.com/pay-point-convert-in/pointconvert?backType=CLOSE',
+        '_blank'
+      );
     } catch (error) {
       console.error("충전 요청 실패:", error);
       alert("충전 요청에 실패했습니다. 다시 시도해주세요.");
     }
+    
   };
 
   const handleFileChange = (e) => {
@@ -148,8 +153,7 @@ function Mypagedetail() {
             alt="프로필 이미지"
           />
           <div className="namebox">
-            <h2 className="username">{userData.username || "로딩 중..."}</h2>
-            <h2 className="Name">{userData.nickname || "로딩 중..."}</h2>
+            <h2 className="Name">{userData.nickname +" 님 안녕하세요!"|| "로딩 중..."}</h2>
           </div>
         </div>
 

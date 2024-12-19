@@ -1,13 +1,16 @@
 /* 전체 컨테이너 스타일 */
 .mypage-container {
   width: 100%;
+  max-height: max-content;
   max-width: 250px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: #f9f9f9;
+  background-color: #fffff0 !important; 
   box-sizing: border-box;
   opacity: 0.9; /* 전체 카드 투명도 */
+  margin-right: 1%;
+  margin-top: 3%;
 }
 
 /* 타이틀 스타일 */
